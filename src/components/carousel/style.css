@@ -1,0 +1,29 @@
+.slider-container {
+  position: relative; /* Make the container relative for absolute positioning */
+}
+
+.slick-prev,
+.slick-next {
+  width: 40px; /* Set a width for the arrow buttons */
+  height: 40px; /* Set a height for the arrow buttons */
+  z-index: 2; /* Ensure the arrows are above other content */
+}
+
+.slick-prev {
+  left: 0px; /* Adjust left position */
+}
+
+.slick-next {
+  right: 0px; /* Adjust right position */
+}
+
+/* Arrow styles */
+.slick-prev:before,
+.slick-next:before {
+  color: #333; /* Arrow color */
+  font-size: 24px; /* Adjust size for visibility */
+}
+.slick-track {
+  display: flex;
+  gap: 20px;
+}
