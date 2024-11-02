@@ -1,5 +1,6 @@
 import React from "react";
 import bg from "../../assets/images/hero1.jpg";
+import AdvancedSearchFilters from "../advancedSearch";
 const HeroSection = () => {
   return (
     <section

@@ -1,20 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-
-// Validation schema using Yup
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-});
+import { FaPen } from "react-icons/fa"; // Import pen icon
 
 const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
-  const [profileImage, setProfileImage] = useState(userData.profileImage); // State for profile image
-
-  const initialValues = {
-    name: userData.name,
-    email: userData.email,
-  };
+  const [profileImage, setProfileImage] = useState(userData.profileImage);
+  const fileInputRef = useRef(null); // Create a ref for the file input
 
   const handleImageChange = (event) => {
     const file = event.currentTarget.files[0];
@@ -33,7 +23,7 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
   };
 
   return (
-    <div className="profile-details text-center  p-4 rounded-lg ">
+    <div className="profile-details text-center p-4 rounded-lg">
       <div className="cover-image mb-4">
         <img
           src={userData.coverImage}
@@ -41,27 +31,32 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
           className="w-full h-40 object-cover rounded-lg shadow-lg"
         />
       </div>
-      <div className="profile-image mb-4">
+      <div className="profile-image mb-4 relative">
         <img
           src={profileImage}
           alt="Profile"
           className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-lg"
         />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current.click()}
+          className="absolute top-[65px] left-[60px] bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition duration-300"
+        >
+          <FaPen className="text-blue-500" />
+        </button>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+          ref={fileInputRef} // Set the ref here
+        />
       </div>
-      {isEditing && (
-        <div className="mb-4">
-          <label className="block mb-1">Change Profile Picture:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-      )}
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={{
+          name: userData.name,
+          email: userData.email,
+        }}
         onSubmit={handleSubmit}
         enableReinitialize
       >
@@ -81,7 +76,7 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
               <Field
                 type="email"
                 name="email"
-                disabled
+                disabled={!isEditing}
                 className="input-field border rounded p-2 w-full"
               />
             </div>
@@ -107,7 +102,7 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
                   <button
                     type="button"
                     onClick={onEditToggle}
-                    className="ml-2 bg-gray-300 py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
+                    className="ml-2 bg-gray-300 text-gray-500 py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
                   >
                     Cancel
                   </button>

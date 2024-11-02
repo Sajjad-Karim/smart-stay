@@ -3,9 +3,6 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import loginSchema from "./loginSchema";
 import { FaGoogle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import Modal from "@/components/modal";
-import VerifyOTP from "../otpverification";
 
 const details = {
   username: "admin",
@@ -13,8 +10,6 @@ const details = {
 };
 
 const LoginForm = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -26,7 +21,7 @@ const LoginForm = () => {
         values.username === details.username &&
         values.password === details.password
       ) {
-        setIsModalOpen(true); // Open the modal on successful login
+        alert("success fully loggedin");
       }
     },
   });
@@ -93,9 +88,9 @@ const LoginForm = () => {
       </div>
 
       {/* Modal for OTP Verification */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <VerifyOTP />
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
