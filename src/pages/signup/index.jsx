@@ -1,8 +1,6 @@
-// RegistrationForm.jsx
 import React from "react";
 import { useFormik } from "formik";
-import signupSchema from "./singupSchema"; // Import the schema
-import { FaGoogle } from "react-icons/fa";
+import signupSchema from "./singupSchema";
 
 const RegistrationForm = () => {
   const formik = useFormik({
@@ -17,10 +15,6 @@ const RegistrationForm = () => {
       console.log("Form data:", values);
     },
   });
-  const handleGoogleSignIn = () => {
-    // handle Google sign-in logic
-  };
-
   return (
     <div className="flex justify-center items-center py-5 bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -92,8 +86,6 @@ const RegistrationForm = () => {
             ) : null}
           </div>
 
-        
-
           <button
             type="submit"
             className="w-full py-1 bg-blue-500 text-gray-800 border font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
@@ -101,15 +93,6 @@ const RegistrationForm = () => {
             Register
           </button>
         </form>
-
-        <div className="mt-6">
-          <button
-            onClick={handleGoogleSignIn}
-            className="w-full flex justify-center items-center py-1 border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200"
-          >
-            <FaGoogle className="mr-2" /> Continue with Google
-          </button>
-        </div>
       </div>
     </div>
   );

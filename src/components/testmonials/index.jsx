@@ -1,7 +1,7 @@
 // Testimonials.jsx
 import React from "react";
 import TestimonialCard from "./testimonialCard";
-
+import SlickSlider from "../carousel";
 const Testimonials = () => {
   const testimonialsData = [
     {
@@ -16,6 +16,14 @@ const Testimonials = () => {
       text: "From beachside bungalows to city apartments, SmartStay had it all!",
       name: "Sarah, Digital Nomad",
     },
+    {
+      text: "Experience the beauty of nature without leaving home. SmartStay is the perfect choice!",
+      name: "Jay, Outdoor Traveler",
+    },
+    {
+      text: "Discover the magic of the city with SmartStay. I've been a loyal customer for years!",
+      name: "Jane, City Lover",
+    },
   ];
 
   return (
@@ -24,7 +32,8 @@ const Testimonials = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-8">
           What Our Users Say
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> */}
+        <SlickSlider slides={4}>
           {testimonialsData.map((testimonial, index) => (
             <TestimonialCard
               key={index}
@@ -32,8 +41,9 @@ const Testimonials = () => {
               name={testimonial.name}
             />
           ))}
-        </div>
+        </SlickSlider>
       </div>
+      {/* </div> */}
     </section>
   );
 };

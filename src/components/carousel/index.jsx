@@ -4,12 +4,12 @@ import React from "react";
 import Slider from "react-slick";
 import { FaLock, FaStar, FaCogs, FaPhoneAlt } from "react-icons/fa";
 import "./style.css";
-function SlickSlider({ children }) {
+function SlickSlider({ children, slides }) {
   var settings = {
     dots: false,
     infinite: true, // Set to true for smooth navigation
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: slides,
     slidesToScroll: 1,
     arrows: true,
     responsive: [

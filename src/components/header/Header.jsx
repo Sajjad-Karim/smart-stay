@@ -23,9 +23,6 @@ const Header = () => {
           <li>
             <Link>Blogs</Link>
           </li>
-          <li>
-            <Link>Home</Link>
-          </li>
         </ul>
         <div className="flex gap-5">
           <Link to={"signup"}>
