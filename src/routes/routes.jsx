@@ -23,10 +23,10 @@ export const routes = createBrowserRouter([
         path: "/login",
         element: <LoginForm />,
       },
-      {
-        path: "/verify-opt",
-        element: <VerifyOTP />,
-      },
+      // {
+      //   path: "/verify-opt",
+      //   element: <VerifyOTP />,
+      // },
       {
         path: "/user-profile",
         element: <UserProfile />,

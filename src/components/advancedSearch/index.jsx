@@ -1,178 +1,145 @@
-// components/AdvancedSearchFilters.js
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+// src/components/advancedSearch.jsx
+import React, { useState } from "react";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  location: Yup.string().required("Please select a location"),
-  maxPrice: Yup.number().required("Please set a maximum price"),
-  amenities: Yup.array().min(1, "Select at least one amenity"),
-  rating: Yup.number(),
-  roomType: Yup.string().required("Please select a room type"),
-});
-
-const AdvancedSearchFilters = ({ onSearch }) => {
-  const initialValues = {
+const SearchFilter = ({ onFilterChange }) => {
+  const [filters, setFilters] = useState({
     location: "",
-    maxPrice: 500,
+    price: "",
     amenities: [],
     rating: "",
     roomType: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      const updatedAmenities = checked
+        ? [...filters.amenities, value]
+        : filters.amenities.filter((amenity) => amenity !== value);
+
+      setFilters((prev) => ({ ...prev, amenities: updatedAmenities }));
+    } else {
+      setFilters((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = (values) => {
-    onSearch(values); // Pass filter values to parent component
+  const handleApplyFilters = () => {
+    onFilterChange(filters);
   };
 
   return (
-    <div className="advanced-search-filters bg-white text-gray-500 p-4 rounded-lg shadow-md">
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ values, setFieldValue }) => (
-          <Form className="flex flex-wrap items-end gap-x-6 gap-y-4">
-            {/* Location Selector */}
-            <div className="flex flex-col w-40">
-              <label className="font-medium mb-1 text-sm">Location</label>
-              <Field
-                as="select"
-                name="location"
-                className="border rounded p-2 text-sm"
-              >
-                <option value="">Select</option>
-                <option value="New York">New York</option>
-                <option value="Paris">Paris</option>
-                <option value="Tokyo">Tokyo</option>
-              </Field> 
-              <ErrorMessage
-                name="location"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+    <div className="w-[95%] mx-auto my-[30px] p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+        Accommodation
+      </h2>
 
-            {/* Single Price Range Slider (Max Price) */}
-            <div className="flex flex-col w-52">
-              <label className="font-medium mb-1 text-sm">Max Price</label>
-              <div className="flex gap-2 items-center text-xs">
-                <span className="text-gray-700">${values.maxPrice}</span>
-                <Field
-                  type="range"
-                  name="maxPrice"
-                  min="0"
-                  max="1000"
-                  value={values.maxPrice}
-                  onChange={(e) => setFieldValue("maxPrice", e.target.value)}
-                  className="w-full"
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {/* Location Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            name="location"
+            value={filters.location}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="City or landmark"
+          />
+        </div>
+
+        {/* Price Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Price Range
+          </label>
+          <select
+            name="price"
+            value={filters.price}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">Any</option>
+            <option value="0-50">$0 - $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100-200">$100 - $200</option>
+            <option value="200+">$200+</option>
+          </select>
+        </div>
+
+        {/* Amenities Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Amenities
+          </label>
+          <div className="flex flex-wrap gap-1">
+            {["WiFi", "Pool", "Parking", "Gym"].map((amenity) => (
+              <label
+                key={amenity}
+                className="flex items-center text-sm space-x-1"
+              >
+                <input
+                  type="checkbox"
+                  value={amenity}
+                  checked={filters.amenities.includes(amenity)}
+                  onChange={handleChange}
+                  className="focus:ring-2 focus:ring-blue-500"
                 />
-              </div>
-              <ErrorMessage
-                name="maxPrice"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+                <span>{amenity}</span>
+              </label>
+            ))}
+          </div>
+        </div>
 
-            {/* Amenities Checkboxes */}
-            <div className="flex flex-col w-52">
-              <label className="font-medium mb-1 text-sm">Amenities</label>
-              <div
-                role="group"
-                aria-labelledby="checkbox-group"
-                className="flex gap-2 items-center text-xs"
-              >
-                <label>
-                  <Field
-                    type="checkbox"
-                    name="amenities"
-                    value="WiFi"
-                    className="mr-1"
-                  />
-                  WiFi
-                </label>
-                <label>
-                  <Field
-                    type="checkbox"
-                    name="amenities"
-                    value="Parking"
-                    className="mr-1"
-                  />
-                  Parking
-                </label>
-                <label>
-                  <Field
-                    type="checkbox"
-                    name="amenities"
-                    value="Air Conditioning"
-                    className="mr-1"
-                  />
-                  A/C
-                </label>
-              </div>
-              <ErrorMessage
-                name="amenities"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+        {/* Rating Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Rating
+          </label>
+          <select
+            name="rating"
+            value={filters.rating}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">Any</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+        </div>
 
-            {/* Rating Selector */}
-            <div className="flex flex-col w-32">
-              <label className="font-medium mb-1 text-sm">Rating</label>
-              <Field
-                as="select"
-                name="rating"
-                className="border rounded p-2 text-sm"
-              >
-                <option value="">Select</option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-              </Field>
-              <ErrorMessage
-                name="rating"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+        {/* Room Type Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Room Type
+          </label>
+          <select
+            name="roomType"
+            value={filters.roomType}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="">Any</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="suite">Suite</option>
+            <option value="family">Family</option>
+          </select>
+        </div>
+      </div>
 
-            {/* Room Type Selector */}
-            <div className="flex flex-col w-32">
-              <label className="font-medium mb-1 text-sm">Room Type</label>
-              <Field
-                as="select"
-                name="roomType"
-                className="border rounded p-2 text-sm"
-              >
-                <option value="">Select</option>
-                <option value="Spread">Spread</option>
-                <option value="Share">Share</option>
-                <option value="Other">Other</option>
-              </Field>
-              <ErrorMessage
-                name="roomType"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
-
-            {/* Search Button */}
-            <button
-              type="submit"
-              className="bg-blue-500 text-white borde bg-indigo-600 r py-2 px-4 rounded text-sm hover:bg-indigo-800 transition duration-300"
-            >
-              Search
-            </button>
-          </Form>
-        )}
-      </Formik>
+      <button
+        onClick={handleApplyFilters}
+        className="mt-4 w-full bg-blue-500 text-gray-500 border py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
+      >
+        Apply Filters
+      </button>
     </div>
   );
 };
 
-export default AdvancedSearchFilters;
+export default SearchFilter;
