@@ -1,28 +1,48 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import signupSchema from "./singupSchema";
-import Modal from "@/components/modal";
-import { FaGoogle } from "react-icons/fa";
+import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import signupSchema from './singupSchema';
+import Modal from '@/components/modal';
+import { FaGoogle } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { userRegister } from '@/features/auth/auth.actions';
+import { toast } from 'react-toastify';
 const RegistrationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isRegisterSuccess, isRegisterLoading, isRegisterFailed, error } =
+    useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      fullName: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
-      console.log("Form data:", values);
-      setIsModalOpen(true);
+      console.log('Form data:', values);
+      dispatch(userRegister(values));
     },
   });
   const handleGoogleSignIn = () => {
     // handle Google sign-in logic
   };
+
+  useEffect(() => {
+    if (isRegisterSuccess) {
+      toast.success('Registered Successfully');
+      setIsModalOpen(true);
+      navigate('/');
+    }
+    if (isRegisterFailed) {
+      toast.error(error);
+    }
+  }, [isRegisterSuccess, isRegisterFailed, error, navigate]);
 
   return (
     <div className="flex justify-center items-center py-5 bg-gray-100">
@@ -30,17 +50,19 @@ const RegistrationForm = () => {
         <h2 className="text-2xl font-bold mb-3 text-center">Register</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700">Name</label>
+            <label className="block text-gray-700">Full Name</label>
             <input
               type="text"
-              name="name"
+              name="fullName"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.name}
+              value={formik.values.fullName}
               className="w-full px-4 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {formik.touched.name && formik.errors.name ? (
-              <div className="text-red-500 text-sm">{formik.errors.name}</div>
+            {formik.touched.name && formik.errors.fullName ? (
+              <div className="text-red-500 text-sm">
+                {formik.errors.fullName}
+              </div>
             ) : null}
           </div>
 
@@ -62,7 +84,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700">Email</label>{" "}
+            <label className="block text-gray-700">Email</label>{' '}
             {/* New email label */}
             <input
               type="email" // Set input type to email
@@ -115,7 +137,7 @@ const RegistrationForm = () => {
             type="submit"
             className="w-full py-1 bg-blue-500 text-gray-800 border font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
           >
-            Register
+            {isRegisterLoading ? 'loading' : 'Register'}
           </button>
           <div className="mt-6">
             <button
@@ -129,7 +151,9 @@ const RegistrationForm = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <p className="font-medium">Verify Your Profile Through Gmail</p>
+        <p className="font-medium">
+          Registered Successfully. Verify Your Profile Through Gmail
+        </p>
       </Modal>
     </div>
   );

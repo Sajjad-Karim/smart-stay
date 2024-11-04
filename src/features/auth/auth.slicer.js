@@ -60,7 +60,7 @@ const authSlicer = createSlice({
       state.isRegisterLoading = false;
       state.isRegisterSuccess = false;
       state.isRegisterFailed = true;
-      state.error = action.payload.message;
+      state.error = action.payload.error;
     });
   },
 });
