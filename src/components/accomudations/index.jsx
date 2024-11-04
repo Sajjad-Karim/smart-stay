@@ -1,34 +1,50 @@
-// pages/AccommodationSearchPage.js
+// src/components/Accomdations.jsx
 import React, { useState } from "react";
-import AdvancedSearchFilters from "@/components/advancedSearch";
+import SearchFilter from "../advancedSearch"; // Ensure this component exists
+import hotelsData from "../card/data"; // Ensure the path is correct
+import HotelList from "../card/listcards"; // Ensure the path is correct
 
-const AccommodationSearchPage = () => {
-  const [searchFilters, setSearchFilters] = useState(null);
+const Accomdations = () => {
+  const [filters, setFilters] = useState({
+    location: "",
+    price: "",
+    amenities: [],
+    rating: "",
+    roomType: "",
+  });
 
-  const handleSearch = (filters) => {
-    setSearchFilters(filters);
-    console.log("Applied Filters:", filters);
-    // Here you can use filters to make an API call to fetch accommodations
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
   };
 
-  return (
-    <div className="accommodation-search-page p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">
-        Search Accommodations
-      </h1>
-      <AdvancedSearchFilters onSearch={handleSearch} />
+  const filteredHotels = hotelsData.filter((hotel) => {
+    const matchesLocation = hotel.location
+      .toLowerCase()
+      .includes(filters.location.toLowerCase());
+    const matchesPrice = !filters.price || hotel.priceRange === filters.price; // Adjust based on your data structure
+    const matchesRating =
+      !filters.rating || hotel.rating === Number(filters.rating); // Adjust based on your data structure
+    const matchesRoomType =
+      !filters.roomType || hotel.roomType === filters.roomType; // Adjust based on your data structure
+    const matchesAmenities =
+      filters.amenities.length === 0 ||
+      filters.amenities.every((amenity) => hotel.amenities.includes(amenity)); // Adjust based on your data structure
 
-      {/* Render search results based on searchFilters */}
-      {searchFilters && (
-        <div className="search-results mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Search Results:</h2>
-          {/* Map over results and display them */}
-          {/* Example placeholder for results */}
-          <p>Displaying results for selected filters...</p>
-        </div>
-      )}
-    </div>
+    return (
+      matchesLocation &&
+      matchesPrice &&
+      matchesRating &&
+      matchesRoomType &&
+      matchesAmenities
+    );
+  });
+
+  return (
+    <>
+      <SearchFilter onFilterChange={handleFilterChange} />
+      <HotelList hotels={filteredHotels} />
+    </>
   );
 };
 
-export default AccommodationSearchPage;
+export default Accomdations;

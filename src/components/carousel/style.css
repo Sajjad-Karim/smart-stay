@@ -10,11 +10,11 @@
 }
 
 .slick-prev {
-  left: 0px; /* Adjust left position */
+  left: -30px; /* Adjust left position */
 }
 
 .slick-next {
-  right: 0px; /* Adjust right position */
+  right: -20px; /* Adjust right position */
 }
 
 /* Arrow styles */
