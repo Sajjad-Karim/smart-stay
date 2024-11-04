@@ -1,26 +1,25 @@
-import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/layout/Layout";
-import Home from "../pages/home/Home";
-import Singup from "@/pages/signup";
-import LoginForm from "@/pages/login";
-import VerifyOTP from "@/pages/otpverification";
-import UserProfile from "@/pages/userProfile";
+import { createBrowserRouter } from 'react-router-dom';
+import Layout from '../components/layout/Layout';
+import Home from '../pages/home/Home';
+import Singup from '@/pages/signup';
+import LoginForm from '@/pages/login';
+import UserProfile from '@/pages/userProfile';
 export const routes = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Home />,
       },
 
       {
-        path: "/signup",
+        path: '/signup',
         element: <Singup />,
       },
       {
-        path: "/login",
+        path: '/login',
         element: <LoginForm />,
       },
       // {
@@ -28,7 +27,7 @@ export const routes = createBrowserRouter([
       //   element: <VerifyOTP />,
       // },
       {
-        path: "/user-profile",
+        path: '/user-profile',
         element: <UserProfile />,
       },
     ],

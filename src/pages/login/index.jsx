@@ -1,30 +1,46 @@
 // LoginForm.jsx
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import loginSchema from "./loginSchema";
-import { FaGoogle } from "react-icons/fa";
-
-const details = {
-  username: "admin",
-  password: "123",
-};
+import { useFormik } from 'formik';
+import loginSchema from './loginSchema';
+import { FaGoogle } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { userLogin } from '@/features/auth/auth.actions';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isLoginSuccess, isLoginFailed, error } = useSelector(
+    (state) => state.auth
+  );
+
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      if (
-        values.username === details.username &&
-        values.password === details.password
-      ) {
-        alert("success fully loggedin");
-      }
+      let payload = {
+        ...values,
+        provider: 'manual',
+      };
+      dispatch(userLogin(payload));
     },
   });
+
+  useEffect(() => {
+    if (isLoginSuccess) {
+      toast.success('logged In Successfully');
+
+      navigate('/login');
+    }
+    if (isLoginFailed) {
+      toast.error(error);
+    }
+  }, [isLoginSuccess, isLoginFailed, error, navigate]);
 
   const handleGoogleSignIn = () => {
     // handle Google sign-in logic
@@ -36,19 +52,17 @@ const LoginForm = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700">Username</label>
+            <label className="block text-gray-700">Email</label>
             <input
-              type="text"
-              name="username"
+              type="email"
+              name="email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.username}
+              value={formik.values.email}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {formik.touched.username && formik.errors.username ? (
-              <div className="text-red-500 text-sm">
-                {formik.errors.username}
-              </div>
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-500 text-sm">{formik.errors.email}</div>
             ) : null}
           </div>
 

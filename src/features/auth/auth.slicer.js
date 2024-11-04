@@ -41,7 +41,7 @@ const authSlicer = createSlice({
       state.isLoginLoading = false;
       state.isLoginSuccess = false;
       state.isLoginFailed = true;
-      state.error = action.payload;
+      state.error = action.payload.error;
     });
 
     // Verify OTP cases
@@ -54,7 +54,7 @@ const authSlicer = createSlice({
       state.isRegisterFailed = false;
       state.isRegisterSuccess = true;
       state.login = action.payload;
-      localStorage.setItem('authToken', action.payload.token);
+      localStorage.setItem('authToken', action.payload.accessToken);
     });
     builder.addCase(userRegister.rejected, (state, action) => {
       state.isRegisterLoading = false;
