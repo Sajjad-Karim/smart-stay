@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userLogin, userRegister, googleLogin } from './auth.actions';
+import {
+  userLogin,
+  userRegister,
+  googleLogin,
+  checkSession,
+} from './auth.actions';
 
 const initialState = {
   isLoginSuccess: false,
@@ -10,6 +15,10 @@ const initialState = {
   isRegisterSuccess: false,
   isRegisterLoading: false,
   isRegisterFailed: false,
+  isSessionSuccess: false,
+  isSessionLoading: false,
+  isSessionFailed: false,
+  sessionError: '',
 };
 
 const authSlicer = createSlice({
@@ -25,6 +34,10 @@ const authSlicer = createSlice({
       state.isLoginFailed = false;
       localStorage.removeItem('authToken');
       state.login = '';
+      state.sessionError = '';
+      state.isSessionSuccess = false;
+      state.isSessionLoading = false;
+      state.isSessionFailed = false;
     },
   },
 
@@ -80,6 +93,23 @@ const authSlicer = createSlice({
       state.isRegisterSuccess = false;
       state.isRegisterFailed = true;
       state.error = action.payload.error;
+    });
+    //checksession case
+    builder.addCase(checkSession.pending, (state) => {
+      state.isSessionLoading = true;
+    });
+    builder.addCase(checkSession.fulfilled, (state, action) => {
+      state.isSessionLoading = false;
+      state.isSessionFailed = false;
+      state.isSessionSuccess = true;
+      state.login = action.payload;
+    });
+    builder.addCase(checkSession.rejected, (state, action) => {
+      console.log(action.payload.error);
+      state.isSessionLoading = false;
+      state.isSessionSuccess = false;
+      state.isSessionFailed = true;
+      state.sessionError = action.payload.error;
     });
   },
 });

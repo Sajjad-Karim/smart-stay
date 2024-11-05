@@ -48,7 +48,6 @@ const RegistrationForm = () => {
     }
     if (isLoginSuccess) {
       toast.success('Login Successfully');
-
       navigate('/');
     }
     if (isRegisterFailed) {

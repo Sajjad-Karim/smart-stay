@@ -30,15 +30,18 @@ export const userRegister = createAsyncThunk(
 );
 
 ///////////////////////////////////////////////////
-export const checkSession = createAsyncThunk('auth/checkSession', async () => {
-  try {
-    const token = localStorage.getItem('authToken');
-    const res = await checkSessionApi(token);
-    return res.data;
-  } catch (error) {
-    throw error.response.data.message;
+export const checkSession = createAsyncThunk(
+  'auth/checkSession',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await checkSessionApi(payload);
+      return res.data;
+    } catch (err) {
+      // Use rejectWithValue to pass the error payload to the reducer
+      return rejectWithValue(err.response ? err.response.data : err.message);
+    }
   }
-});
+);
 ///////////////////////////////////////////////////
 
 export const googleLogin = createAsyncThunk(

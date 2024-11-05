@@ -36,7 +36,7 @@ const LoginForm = () => {
     if (isLoginSuccess) {
       toast.success('logged In Successfully');
 
-      navigate('/login');
+      navigate('/');
     }
     if (isLoginFailed) {
       toast.error(error);
