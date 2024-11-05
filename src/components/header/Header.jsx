@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
-import logo from "../../assets/logo/smartstay.png";
+import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
+import logo from '../../assets/logo/smartstay.png';
+import { useSelector } from 'react-redux';
+import { FaUserCircle } from 'react-icons/fa';
 const Header = () => {
+  const { userData } = useSelector((state) => state.auth.login);
+
   return (
     <>
       <header className="shadow-md  text-gray-800 flex justify-between items-center px-5 py-3">
         <div>
-          <Link to={"/"}>
-            <img src={logo} balt="logo" className="h-[30px]" />
+          <Link to={'/'}>
+            <img src={logo} alt="logo" className="h-[30px]" />
           </Link>
         </div>
         <ul className="flex gap-5 text-[15px] font-medium">
@@ -25,16 +29,24 @@ const Header = () => {
           </li>
         </ul>
         <div className="flex gap-5">
-          <Link to={"signup"}>
-            <Button className="text-gray-800" variant="outline">
-              Sign Up
+          {userData ? (
+            <Button className="text-gray-800 rounded-full" variant="outline">
+              <FaUserCircle />
             </Button>
-          </Link>
-          <Link to={"login"}>
-            <Button className="text-gray-800" variant="outline">
-              Login
-            </Button>
-          </Link>
+          ) : (
+            <>
+              <Link to={'signup'}>
+                <Button className="text-gray-800" variant="outline">
+                  Sign Up
+                </Button>
+              </Link>
+              <Link to={'login'}>
+                <Button className="text-gray-800" variant="outline">
+                  Login
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </header>
     </>
