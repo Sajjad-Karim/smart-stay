@@ -10,3 +10,10 @@ export const checkSessionApi = (payload) =>
       Authorization: payload,
     },
   });
+
+export const googleSignIn = (payload) =>
+  STAY.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    headers: {
+      Authorization: `Bearer ${payload}`,
+    },
+  });

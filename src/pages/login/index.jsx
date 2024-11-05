@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { userLogin } from '@/features/auth/auth.actions';
+import { googleLogin, userLogin } from '@/features/auth/auth.actions';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -42,9 +43,11 @@ const LoginForm = () => {
     }
   }, [isLoginSuccess, isLoginFailed, error, navigate]);
 
-  const handleGoogleSignIn = () => {
-    // handle Google sign-in logic
-  };
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      dispatch(googleLogin(tokenResponse.access_token));
+    },
+  });
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -93,7 +96,7 @@ const LoginForm = () => {
 
         <div className="mt-6">
           <button
-            onClick={handleGoogleSignIn}
+            onClick={() => login()}
             className="w-full flex justify-center items-center py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200"
           >
             <FaGoogle className="mr-2" /> Continue with Google

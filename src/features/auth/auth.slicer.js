@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userLogin, userRegister } from './auth.actions';
+import { userLogin, userRegister, googleLogin } from './auth.actions';
 
 const initialState = {
   isLoginSuccess: false,
@@ -27,6 +27,8 @@ const authSlicer = createSlice({
       state.login = '';
     },
   },
+
+  // login case
   extraReducers: (builder) => {
     builder.addCase(userLogin.pending, (state) => {
       state.isLoginLoading = true;
@@ -44,7 +46,24 @@ const authSlicer = createSlice({
       state.error = action.payload.error;
     });
 
-    // Verify OTP cases
+    // google login
+    builder.addCase(googleLogin.pending, (state) => {
+      state.isLoginLoading = true;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      state.isLoginLoading = false;
+      state.isLoginSuccess = true;
+      state.login = action.payload;
+      localStorage.setItem('authToken', action.payload.accessToken);
+    });
+    builder.addCase(googleLogin.rejected, (state, action) => {
+      state.isLoginLoading = false;
+      state.isLoginSuccess = false;
+      state.isLoginFailed = true;
+      state.error = action.payload.error;
+    });
+
+    // register case
     builder.addCase(userRegister.pending, (state) => {
       state.isRegisterLoading = true;
     });
