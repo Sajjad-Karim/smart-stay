@@ -1,13 +1,24 @@
-import React, { useState, useRef } from "react";
-import { Formik, Form, Field } from "formik";
-import { FaPen } from "react-icons/fa"; // Import pen icon
-
-const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
-  const [profileImage, setProfileImage] = useState(userData.profileImage);
+/* eslint-disable react/prop-types */
+import { useState, useRef } from 'react';
+import { FaPen } from 'react-icons/fa'; // Import pen icon
+import { useSelector } from 'react-redux';
+import userBackground from '../../assets/images/background.jpg';
+import profile from '../../assets/images/profile.jpg';
+const ProfileDetails = ({ isEditing, onEditToggle }) => {
+  const { login } = useSelector((state) => state.auth);
+  const [profileImage, setProfileImage] = useState(
+    login?.userData?.displayImg || profile
+  );
+  const [formData, setFormData] = useState({
+    name: login.userData.fullName || 'Your Name',
+    username: login.userData.username,
+    email: login.userData.email,
+  });
   const fileInputRef = useRef(null); // Create a ref for the file input
 
   const handleImageChange = (event) => {
     const file = event.currentTarget.files[0];
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -17,8 +28,17 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
     }
   };
 
-  const handleSubmit = (values) => {
-    console.log("Updated User Data:", { ...values, profileImage });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Updated User Data:', {
+      username: formData.username,
+      name: formData.name,
+    });
     onEditToggle(); // Close editing mode after saving
   };
 
@@ -26,7 +46,7 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
     <div className="profile-details text-center p-4 rounded-lg">
       <div className="cover-image mb-4">
         <img
-          src={userData.coverImage}
+          src={userBackground}
           alt="Cover"
           className="w-full h-40 object-cover rounded-lg shadow-lg"
         />
@@ -52,76 +72,68 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
           ref={fileInputRef} // Set the ref here
         />
       </div>
-      <Formik
-        initialValues={{
-          name: userData.name,
-          email: userData.email,
-          username: userData.username, // Add username field
-        }}
-        onSubmit={handleSubmit}
-        enableReinitialize
-      >
-        {({ isSubmitting }) => (
-          <Form className="mt-4">
-            <div className="mb-4">
-              <label className="block mb-1">Full Name:</label>
-              <Field
-                type="text"
-                name="name"
-                disabled={!isEditing}
-                className="input-field border rounded p-2 w-full"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1">Username:</label>
-              <Field
-                type="text"
-                name="username"
-                disabled={!isEditing}
-                className="input-field border rounded p-2 w-full"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1">Email:</label>
-              <Field
-                type="email"
-                name="email"
-                disabled={!isEditing}
-                className="input-field border rounded p-2 w-full"
-              />
-            </div>
-            <div className="flex justify-center">
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="mb-4">
+          <label className="block mb-1">Full Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            disabled={!isEditing}
+            className="input-field border rounded p-2 w-full"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1">Username:</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            disabled={!isEditing}
+            className="input-field border rounded p-2 w-full"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1">Email:</label>
+          <input
+            type="email"
+            name="username"
+            value={formData.email}
+            disabled
+            className="input-field border rounded p-2 w-full"
+          />
+        </div>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={onEditToggle}
+            className={`bg-blue-500 text-gray-500 border py-2 px-4 rounded hover:bg-blue-600 transition duration-300 ${
+              isEditing ? 'hidden' : 'block'
+            }`}
+          >
+            Edit Details
+          </button>
+          {isEditing && (
+            <>
+              <button
+                type="submit"
+                className="bg-blue-500 text-gray-500 shadow-md py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+              >
+                Save Changes
+              </button>
               <button
                 type="button"
                 onClick={onEditToggle}
-                className={`bg-blue-500 text-gray-500 border py-2 px-4 rounded hover:bg-blue-600 transition duration-300 ${
-                  isEditing ? "hidden" : "block"
-                }`}
+                className="ml-2 bg-gray-300 text-gray-500 py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
               >
-                Edit Details
+                Cancel
               </button>
-              {isEditing && (
-                <>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-blue-500 text-gray-500 py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-                  >
-                    Save Changes
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onEditToggle}
-                    className="ml-2 bg-gray-300 text-gray-500 py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
-            </div>
-          </Form>
-        )}
-      </Formik>
+            </>
+          )}
+        </div>
+      </form>
     </div>
   );
 };

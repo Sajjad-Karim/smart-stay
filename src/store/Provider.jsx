@@ -1,6 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import rootReducers from "./reducers";
-import { Provider } from "react-redux";
+/* eslint-disable react/prop-types */
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducers from './reducers';
+import { Provider } from 'react-redux';
 const store = configureStore({
   reducer: rootReducers,
 });
