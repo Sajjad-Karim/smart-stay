@@ -1,4 +1,3 @@
-// src/components/advancedSearch.jsx
 import React, { useState } from "react";
 
 const SearchFilter = ({ onFilterChange }) => {
@@ -12,19 +11,20 @@ const SearchFilter = ({ onFilterChange }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    let updatedFilters;
+
     if (type === "checkbox") {
       const updatedAmenities = checked
         ? [...filters.amenities, value]
         : filters.amenities.filter((amenity) => amenity !== value);
 
-      setFilters((prev) => ({ ...prev, amenities: updatedAmenities }));
+      updatedFilters = { ...filters, amenities: updatedAmenities };
     } else {
-      setFilters((prev) => ({ ...prev, [name]: value }));
+      updatedFilters = { ...filters, [name]: value };
     }
-  };
 
-  const handleApplyFilters = () => {
-    onFilterChange(filters);
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters); // Call onFilterChange directly on change
   };
 
   return (
@@ -131,13 +131,6 @@ const SearchFilter = ({ onFilterChange }) => {
           </select>
         </div>
       </div>
-
-      <button
-        onClick={handleApplyFilters}
-        className="mt-4 w-full bg-blue-500 text-gray-500 border py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
-      >
-        Apply Filters
-      </button>
     </div>
   );
 };
