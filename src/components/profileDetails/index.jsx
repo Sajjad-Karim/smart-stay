@@ -1,13 +1,21 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FaPen } from 'react-icons/fa'; // Import pen icon
 import { useDispatch, useSelector } from 'react-redux';
 import userBackground from '../../assets/images/background.jpg';
 import profile from '../../assets/images/profile.jpg';
 import { updateUserInfo } from '@/features/user/user.action';
+import { toast } from 'react-toastify';
 const ProfileDetails = ({ isEditing, onEditToggle }) => {
   const dispatch = useDispatch();
   const { login } = useSelector((state) => state.auth);
+  const {
+    isUpdateUserSuccess,
+    error,
+    isUpdateUserFailed,
+    isUpdateUserLoading,
+  } = useSelector((state) => state.user);
+  const { message } = useSelector((state) => state.user.user);
   const [profileImage, setProfileImage] = useState(
     login?.userData?.displayImg || profile
   );
@@ -43,9 +51,28 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
         fullName: formData.name,
       })
     );
-    console.log('Updated User Data:');
+
     onEditToggle(); // Close editing mode after saving
   };
+
+  useEffect(() => {
+    if (isUpdateUserSuccess) {
+      toast.success(message);
+    }
+
+    if (isUpdateUserLoading) {
+      toast.info('Updating Detials');
+    }
+    if (isUpdateUserFailed) {
+      toast.error(error);
+    }
+  }, [
+    isUpdateUserSuccess,
+    isUpdateUserFailed,
+    isUpdateUserLoading,
+    error,
+    message,
+  ]);
 
   return (
     <div className="profile-details text-center p-4 rounded-lg">
