@@ -3,6 +3,6 @@ import authSlicer from '../features/auth/auth.slicer';
 import userSlicer from '../features/user/user.slicer';
 const rootReducers = combineReducers({
   auth: authSlicer,
-  users: userSlicer,
+  user: userSlicer,
 });
 export default rootReducers;

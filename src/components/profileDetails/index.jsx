@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from 'react';
 import { FaPen } from 'react-icons/fa'; // Import pen icon
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import userBackground from '../../assets/images/background.jpg';
 import profile from '../../assets/images/profile.jpg';
+import { updateUserInfo } from '@/features/user/user.action';
 const ProfileDetails = ({ isEditing, onEditToggle }) => {
+  const dispatch = useDispatch();
   const { login } = useSelector((state) => state.auth);
   const [profileImage, setProfileImage] = useState(
     login?.userData?.displayImg || profile
@@ -35,10 +37,13 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Updated User Data:', {
-      username: formData.username,
-      name: formData.name,
-    });
+    dispatch(
+      updateUserInfo({
+        username: formData.username,
+        fullName: formData.name,
+      })
+    );
+    console.log('Updated User Data:');
     onEditToggle(); // Close editing mode after saving
   };
 
