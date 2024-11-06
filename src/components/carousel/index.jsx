@@ -2,16 +2,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import React from "react";
 import Slider from "react-slick";
-import { FaLock, FaStar, FaCogs, FaPhoneAlt } from "react-icons/fa";
 import "./style.css";
+
 function SlickSlider({ children, slides }) {
-  var settings = {
+  // Hide arrows if the number of slides is less than or equal to the children count
+  const showArrows = React.Children.count(children) > slides;
+
+  const settings = {
     dots: false,
-    infinite: true, // Set to true for smooth navigation
+    infinite: true,
     speed: 500,
     slidesToShow: slides,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: showArrows, // Set arrows based on the condition
     responsive: [
       {
         breakpoint: 1024,
@@ -20,7 +23,7 @@ function SlickSlider({ children, slides }) {
           slidesToScroll: 3,
           infinite: true,
           dots: true,
-          arrows: true, // Ensure arrows are enabled on all breakpoints
+          arrows: showArrows,
         },
       },
       {
@@ -29,7 +32,7 @@ function SlickSlider({ children, slides }) {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
-          arrows: true,
+          arrows: showArrows,
         },
       },
       {
@@ -37,7 +40,7 @@ function SlickSlider({ children, slides }) {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: true,
+          arrows: showArrows,
         },
       },
     ],
