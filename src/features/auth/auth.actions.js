@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { registerApi, loginApi, checkSessionApi, googleSignIn } from './api';
 /////////////////////////////////////////////////
 export const userLogin = createAsyncThunk(
-  "auth/login",
+  'auth/login',
   async (payload, { rejectWithValue }) => {
     try {
       const res = await loginApi(payload);
@@ -16,7 +16,7 @@ export const userLogin = createAsyncThunk(
 );
 /////////////////////////////////////////////////
 export const userRegister = createAsyncThunk(
-  "auth/register",
+  'auth/register',
   async (payload, { rejectWithValue }) => {
     try {
       const res = await registerApi(payload);
@@ -33,7 +33,7 @@ export const checkSession = createAsyncThunk(
   'auth/checkSession',
   async (payload, { rejectWithValue }) => {
     try {
-      const res = await checkSessionApi(payload);
+      const res = await checkSessionApi(localStorage.getItem('authToken'));
       return res.data;
     } catch (err) {
       // Use rejectWithValue to pass the error payload to the reducer
