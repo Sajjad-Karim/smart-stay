@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userLogin, userRegister } from './auth.actions';
+import {
+  userLogin,
+  userRegister,
+  googleLogin,
+  checkSession,
+} from './auth.actions';
 
 const initialState = {
   isLoginSuccess: false,
@@ -10,6 +15,10 @@ const initialState = {
   isRegisterSuccess: false,
   isRegisterLoading: false,
   isRegisterFailed: false,
+  isSessionSuccess: false,
+  isSessionLoading: false,
+  isSessionFailed: false,
+  sessionError: '',
 };
 
 const authSlicer = createSlice({
@@ -25,8 +34,14 @@ const authSlicer = createSlice({
       state.isLoginFailed = false;
       localStorage.removeItem('authToken');
       state.login = '';
+      state.sessionError = '';
+      state.isSessionSuccess = false;
+      state.isSessionLoading = false;
+      state.isSessionFailed = false;
     },
   },
+
+  // login case
   extraReducers: (builder) => {
     builder.addCase(userLogin.pending, (state) => {
       state.isLoginLoading = true;
@@ -44,7 +59,24 @@ const authSlicer = createSlice({
       state.error = action.payload.error;
     });
 
-    // Verify OTP cases
+    // google login
+    builder.addCase(googleLogin.pending, (state) => {
+      state.isLoginLoading = true;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      state.isLoginLoading = false;
+      state.isLoginSuccess = true;
+      state.login = action.payload;
+      localStorage.setItem('authToken', action.payload.accessToken);
+    });
+    builder.addCase(googleLogin.rejected, (state, action) => {
+      state.isLoginLoading = false;
+      state.isLoginSuccess = false;
+      state.isLoginFailed = true;
+      state.error = action.payload.error;
+    });
+
+    // register case
     builder.addCase(userRegister.pending, (state) => {
       state.isRegisterLoading = true;
     });
@@ -61,6 +93,23 @@ const authSlicer = createSlice({
       state.isRegisterSuccess = false;
       state.isRegisterFailed = true;
       state.error = action.payload.error;
+    });
+    //checksession case
+    builder.addCase(checkSession.pending, (state) => {
+      state.isSessionLoading = true;
+    });
+    builder.addCase(checkSession.fulfilled, (state, action) => {
+      state.isSessionLoading = false;
+      state.isSessionFailed = false;
+      state.isSessionSuccess = true;
+      state.login = action.payload;
+    });
+    builder.addCase(checkSession.rejected, (state, action) => {
+      console.log(action.payload.error);
+      state.isSessionLoading = false;
+      state.isSessionSuccess = false;
+      state.isSessionFailed = true;
+      state.sessionError = action.payload.error;
     });
   },
 });

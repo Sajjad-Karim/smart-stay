@@ -56,6 +56,7 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
         initialValues={{
           name: userData.name,
           email: userData.email,
+          username: userData.username, // Add username field
         }}
         onSubmit={handleSubmit}
         enableReinitialize
@@ -67,6 +68,15 @@ const ProfileDetails = ({ userData, isEditing, onEditToggle }) => {
               <Field
                 type="text"
                 name="name"
+                disabled={!isEditing}
+                className="input-field border rounded p-2 w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-1">Username:</label>
+              <Field
+                type="text"
+                name="username"
                 disabled={!isEditing}
                 className="input-field border rounded p-2 w-full"
               />

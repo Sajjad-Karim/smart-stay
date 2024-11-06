@@ -5,15 +5,21 @@ import Modal from '@/components/modal';
 import { FaGoogle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userRegister } from '@/features/auth/auth.actions';
+import { googleLogin, userRegister } from '@/features/auth/auth.actions';
 import { toast } from 'react-toastify';
+import { useGoogleLogin } from '@react-oauth/google';
 const RegistrationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isRegisterSuccess, isRegisterLoading, isRegisterFailed, error } =
-    useSelector((state) => state.auth);
+  const {
+    isRegisterSuccess,
+    isRegisterLoading,
+    isRegisterFailed,
+    error,
+    isLoginSuccess,
+  } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -25,13 +31,14 @@ const RegistrationForm = () => {
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
-      console.log('Form data:', values);
       dispatch(userRegister(values));
     },
   });
-  const handleGoogleSignIn = () => {
-    // handle Google sign-in logic
-  };
+  const singup = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      dispatch(googleLogin(tokenResponse.access_token));
+    },
+  });
 
   useEffect(() => {
     if (isRegisterSuccess) {
@@ -39,10 +46,14 @@ const RegistrationForm = () => {
       setIsModalOpen(true);
       navigate('login');
     }
+    if (isLoginSuccess) {
+      toast.success('Login Successfully');
+      navigate('/');
+    }
     if (isRegisterFailed) {
       toast.error(error);
     }
-  }, [isRegisterSuccess, isRegisterFailed, error, navigate]);
+  }, [isRegisterSuccess, isRegisterFailed, isLoginSuccess, error, navigate]);
 
   return (
     <div className="flex justify-center items-center py-5 bg-gray-100">
@@ -141,7 +152,7 @@ const RegistrationForm = () => {
           </button>
           <div className="mt-6">
             <button
-              onClick={handleGoogleSignIn}
+              onClick={singup}
               className="w-full flex justify-center items-center py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200"
             >
               <FaGoogle className="mr-2" /> Continue with Google
