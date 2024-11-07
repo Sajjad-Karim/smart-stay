@@ -11,6 +11,7 @@ const Header = () => {
   const { userData } = useSelector((state) => state.auth.login);
   const [toggle, setToggle] = useState(false);
   const handleLogout = () => {
+    setToggle(false);
     dispatch(resetLoginState());
     navigate("/");
   };
@@ -47,10 +48,11 @@ const Header = () => {
                 <FaUserCircle />
               </Button>
               {toggle && (
-                <ul className=" absolute w-[100px] 10px rounded bg-white py-[10px]">
+                <ul className=" absolute w-[100px]  rounded bg-white py-[10px]">
                   <Link
                     to={"user-profile"}
-                    className="py-[5px] w-[100%] cursor-pointer pl-[5px] hover:bg-slate-100"
+                    onClick={() => setToggle(!toggle)}
+                    className="py-[5px] w-[100%] block cursor-pointer pl-[5px] hover:bg-slate-100"
                   >
                     Profile
                   </Link>

@@ -1,16 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { updateUserInfo } from './user.action';
+import { createSlice } from "@reduxjs/toolkit";
+import { updateUserInfo } from "./user.action";
+import { updateUserPreferences } from "./user.action";
 
 const initialState = {
   isUpdateUserSuccess: false,
   isUpdateUserLoading: false,
   isUpdateUserFailed: false,
   user: {},
-  error: '',
+  error: "",
+  isUserPreferenceSucesee: false,
+  isUserPreferenceLoading: false,
+  isUserPreferenceFailed: false,
+  userPreference: {},
+  errorUserPreference: "",
 };
 
 const userSlicer = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
 
@@ -29,6 +35,22 @@ const userSlicer = createSlice({
       state.isUpdateUserSuccess = false;
       state.isUpdateUserFailed = true;
       state.error = action.payload.error;
+    });
+
+    // userPreference
+    builder.addCase(updateUserPreferences.pending, (state) => {
+      state.isUserPreferenceLoading = true;
+    });
+    builder.addCase(updateUserPreferences.fulfilled, (state, action) => {
+      state.isUserPreferenceLoading = false;
+      state.isUserPreferenceSucesee = true;
+      state.userPreference = action.payload;
+    });
+    builder.addCase(updateUserPreferences.rejected, (state, action) => {
+      state.isUserPreferenceLoading = false;
+      state.isUserPreferenceSucesee = false;
+      state.isUserPreferenceFailed = true;
+      state.errorUserPreference = action.payload.error;
     });
   },
 });
