@@ -1,37 +1,52 @@
 // components/UserPreferences.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { updateUserPreferences } from "@/features/user/user.action";
-import { useDispatch } from "react-redux";
-
-const UserPreferences = ({ userPreferences, onSavePreferences }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+const UserPreferences = () => {
+  const { preferences } = useSelector((state) => state.auth.login);
+  const {
+    isUserPreferenceSuccess,
+    isUserPreferenceLoading,
+    isUserPreferenceFailed,
+    userPreference,
+    errorUserPreference,
+  } = useSelector((state) => state.user);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
+  console.log(preferences);
 
   const initialValues = {
-    location: userPreferences.location || "",
-    budget: userPreferences.budget || "",
-    numOfPersons: userPreferences.numOfPersons || 1,
-    amenities: userPreferences.amenities || [],
-    roomType: userPreferences.roomType || "",
+    location: preferences.location || "",
+    numOfPersons: preferences.numOfPersons || 1,
+    budget: preferences.budget || "",
+    amenities: preferences.amenities || [],
+    roomType: preferences.roomType || "",
   };
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    const updatedPayload = {
-      ...values,
-      budget: parseInt(values.budget.replace(/\D/g, "")) || 0, // Convert budget to integer if necessary
-    };
-
-    console.log("Updated Preferences:", updatedPayload);
-    onSavePreferences(updatedPayload);
-    setSubmitting(false);
-    setIsEditing(false);
-    dispatch(updateUserPreferences(updatedPayload));
+  const handleSubmit = (values) => {
+    console.log(values);
+    dispatch(updateUserPreferences(values));
   };
+  useEffect(() => {
+    if (isUserPreferenceSuccess) {
+      toast.success(userPreference.message);
+      setIsEditing(false);
+    }
+    if (isUserPreferenceFailed) {
+      toast.error(errorUserPreference);
+      setIsEditing(false);
+    }
+  }, [
+    isUserPreferenceSuccess,
+    isUserPreferenceLoading,
+    isUserPreferenceFailed,
+  ]);
 
   return (
     <div className="user-preferences p-4">
@@ -39,19 +54,19 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
         <div>
           <h2 className="text-2xl font-semibold mb-4">Your Preferences</h2>
           <div className="mb-3">
-            <strong>Location:</strong> {userPreferences.location}
+            <strong>Location:</strong> {initialValues.location}
           </div>
           <div className="mb-3">
-            <strong>Number of Persons:</strong> {userPreferences.numOfPersons}
+            <strong>Number of Persons:</strong> {initialValues.numOfPersons}
           </div>
           <div className="mb-3">
-            <strong>Budget:</strong> {userPreferences.budget}
+            <strong>Budget:</strong> {initialValues.budget}
           </div>
           <div className="mb-3">
-            <strong>Amenities:</strong> {userPreferences.amenities.join(", ")}
+            <strong>Amenities:</strong> {initialValues.amenities.join(", ")}
           </div>
           <div className="mb-3">
-            <strong>Room Type:</strong> {userPreferences.roomType}
+            <strong>Room Type:</strong> {initialValues.roomType}
           </div>
           <button
             onClick={handleEditToggle}
@@ -78,10 +93,14 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                   name="location"
                   className="border rounded p-2 w-full"
                 >
-                  <option value="">Select a location</option>
-                  <option value="New York">New York</option>
-                  <option value="Paris">Paris</option>
-                  <option value="Tokyo">Tokyo</option>
+                  <option value="Karachi">Karachi</option>
+                  <option value="Islamabad">Islamabad</option>
+                  <option value="Lahore">Lahore</option>
+                  <option value="Rawalpindi">Rawalpindi</option>
+                  <option value="Peshawar">Peshawar</option>
+                  <option value="Gilgit">Gilgit</option>
+                  <option value="Sikardu">Sikardu</option>
+                  <option value="Quetta">Queeta</option>
                 </Field>
               </div>
 
@@ -106,10 +125,9 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                   name="budget"
                   className="border rounded p-2 w-full"
                 >
-                  <option value="">Select a budget range</option>
-                  <option value="1000">$1,000</option>
-                  <option value="2000">$2,000</option>
-                  <option value="3000">$3,000</option>
+                  <option value="1000">1,000</option>
+                  <option value="2000">2,000</option>
+                  <option value="3000">3,000</option>
                 </Field>
               </div>
 

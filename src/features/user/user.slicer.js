@@ -8,7 +8,7 @@ const initialState = {
   isUpdateUserFailed: false,
   user: {},
   error: "",
-  isUserPreferenceSucesee: false,
+  isUserPreferenceSuccess: false,
   isUserPreferenceLoading: false,
   isUserPreferenceFailed: false,
   userPreference: {},
@@ -43,12 +43,12 @@ const userSlicer = createSlice({
     });
     builder.addCase(updateUserPreferences.fulfilled, (state, action) => {
       state.isUserPreferenceLoading = false;
-      state.isUserPreferenceSucesee = true;
+      state.isUserPreferenceSuccess = true;
       state.userPreference = action.payload;
     });
     builder.addCase(updateUserPreferences.rejected, (state, action) => {
       state.isUserPreferenceLoading = false;
-      state.isUserPreferenceSucesee = false;
+      state.isUserPreferenceSuccess = false;
       state.isUserPreferenceFailed = true;
       state.errorUserPreference = action.payload.error;
     });
