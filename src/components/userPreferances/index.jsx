@@ -1,28 +1,26 @@
 // components/UserPreferences.js
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { updateUserPreferences } from "@/features/user/user.action";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import { updateUserPreferences } from '@/features/user/user.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 const UserPreferences = () => {
   const { preferences } = useSelector((state) => state.auth.login);
   const {
     isUserPreferenceSuccess,
-    isUserPreferenceLoading,
     isUserPreferenceFailed,
     userPreference,
     errorUserPreference,
   } = useSelector((state) => state.user);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
-  console.log(preferences);
 
   const initialValues = {
-    location: preferences.location || "",
-    numOfPersons: preferences.numOfPersons || 1,
-    budget: preferences.budget || "",
-    amenities: preferences.amenities || [],
-    roomType: preferences.roomType || "",
+    location: preferences?.location || '',
+    numOfPersons: preferences?.numOfPersons || 1,
+    budget: preferences?.budget || 1000,
+    amenities: preferences?.amenities || [],
+    roomType: preferences?.roomType || 'single',
   };
 
   const handleEditToggle = () => {
@@ -44,8 +42,9 @@ const UserPreferences = () => {
     }
   }, [
     isUserPreferenceSuccess,
-    isUserPreferenceLoading,
     isUserPreferenceFailed,
+    errorUserPreference,
+    userPreference,
   ]);
 
   return (
@@ -63,7 +62,7 @@ const UserPreferences = () => {
             <strong>Budget:</strong> {initialValues.budget}
           </div>
           <div className="mb-3">
-            <strong>Amenities:</strong> {initialValues.amenities.join(", ")}
+            <strong>Amenities:</strong> {initialValues.amenities.join(', ')}
           </div>
           <div className="mb-3">
             <strong>Room Type:</strong> {initialValues.roomType}
@@ -125,9 +124,11 @@ const UserPreferences = () => {
                   name="budget"
                   className="border rounded p-2 w-full"
                 >
-                  <option value="1000">1,000</option>
-                  <option value="2000">2,000</option>
-                  <option value="3000">3,000</option>
+                  <option value={1000}>1,000</option>
+                  <option value={2000}>2,000</option>
+                  <option value={3000}>3,000</option>
+                  <option value={5000}>5,000</option>
+                  <option value={10000}>10,000</option>
                 </Field>
               </div>
 
