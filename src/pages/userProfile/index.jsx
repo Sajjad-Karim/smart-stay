@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import ProfileDetails from '@/components/profileDetails';
-import UserPreferences from '@/components/userPreferances';
+import { useState } from "react";
+import ProfileDetails from "@/components/profileDetails";
+import UserPreferences from "@/components/userPreferances";
 
 const UserProfile = () => {
-  const [activeTab, setActiveTab] = useState('details');
+  const [activeTab, setActiveTab] = useState("details");
 
   const [userPreferences, setUserPreferences] = useState({
-    location: ['New York', 'Paris'],
-    budget: '120$',
-    amenities: ['WiFi', 'Parking'],
-    roomType: 'spread',
+    location: "sajjad",
+    budget: "120$",
+    numOfPersons: 2,
+    amenities: ["Wi-Fi", "parking"],
+    roomType: "spread",
   });
   const handleSavePreferences = (updatedPreferences) => {
     setUserPreferences(updatedPreferences);
@@ -27,30 +28,30 @@ const UserProfile = () => {
         <h1 className="text-3xl font-bold text-center mb-6">User Profile</h1>
         <div className="tabs flex justify-center mb-6">
           <button
-            onClick={() => setActiveTab('details')}
+            onClick={() => setActiveTab("details")}
             className={`tab mx-2 py-2 px-4 rounded-lg transition-colors duration-300 ${
-              activeTab === 'details' && 'bg-gray-200 text-gray-700'
+              activeTab === "details" && "bg-gray-200 text-gray-700"
             }`}
           >
             Profile Details
           </button>
           <button
-            onClick={() => setActiveTab('preferences')}
+            onClick={() => setActiveTab("preferences")}
             className={`tab mx-2 py-2 px-4 rounded-lg transition-colors duration-300 ${
-              activeTab === 'preferences' && 'bg-gray-200 text-gray-700'
+              activeTab === "preferences" && "bg-gray-200 text-gray-700"
             }`}
           >
             User Preferences
           </button>
         </div>
         <div className="tab-content bg-white shadow-md rounded-lg p-4">
-          {activeTab === 'details' && (
+          {activeTab === "details" && (
             <ProfileDetails
               isEditing={isEditing}
               onEditToggle={handleEditToggle}
             />
           )}
-          {activeTab === 'preferences' && (
+          {activeTab === "preferences" && (
             <UserPreferences
               userPreferences={userPreferences}
               onSavePreferences={handleSavePreferences}

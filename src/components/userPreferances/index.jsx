@@ -1,13 +1,17 @@
 // components/UserPreferences.js
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import { updateUserPreferences } from "@/features/user/user.action";
+import { useDispatch } from "react-redux";
 
 const UserPreferences = ({ userPreferences, onSavePreferences }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useDispatch();
 
   const initialValues = {
     location: userPreferences.location || "",
     budget: userPreferences.budget || "",
+    numOfPersons: userPreferences.numOfPersons || 1,
     amenities: userPreferences.amenities || [],
     roomType: userPreferences.roomType || "",
   };
@@ -17,10 +21,16 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log("Updated Preferences:", values);
-    onSavePreferences(values);
+    const updatedPayload = {
+      ...values,
+      budget: parseInt(values.budget.replace(/\D/g, "")) || 0, // Convert budget to integer if necessary
+    };
+
+    console.log("Updated Preferences:", updatedPayload);
+    onSavePreferences(updatedPayload);
     setSubmitting(false);
     setIsEditing(false);
+    dispatch(updateUserPreferences(updatedPayload));
   };
 
   return (
@@ -30,6 +40,9 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
           <h2 className="text-2xl font-semibold mb-4">Your Preferences</h2>
           <div className="mb-3">
             <strong>Location:</strong> {userPreferences.location}
+          </div>
+          <div className="mb-3">
+            <strong>Number of Persons:</strong> {userPreferences.numOfPersons}
           </div>
           <div className="mb-3">
             <strong>Budget:</strong> {userPreferences.budget}
@@ -72,6 +85,19 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                 </Field>
               </div>
 
+              {/* Number of Persons */}
+              <div className="mb-4">
+                <label className="block mb-1 font-medium">
+                  Number of Persons:
+                </label>
+                <Field
+                  type="number"
+                  name="numOfPersons"
+                  className="border rounded p-2 w-full"
+                  min="1"
+                />
+              </div>
+
               {/* Budget */}
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Budget:</label>
@@ -81,9 +107,9 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                   className="border rounded p-2 w-full"
                 >
                   <option value="">Select a budget range</option>
-                  <option value="$">Budget ($)</option>
-                  <option value="$$">Mid-range ($$)</option>
-                  <option value="$$$">Luxury ($$$)</option>
+                  <option value="1000">$1,000</option>
+                  <option value="2000">$2,000</option>
+                  <option value="3000">$3,000</option>
                 </Field>
               </div>
 
@@ -95,28 +121,55 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                     <Field
                       type="checkbox"
                       name="amenities"
-                      value="WiFi"
+                      value="Wi-Fi"
                       className="mr-1"
                     />
-                    WiFi
+                    Wi-Fi
                   </label>
                   <label className="mr-4">
                     <Field
                       type="checkbox"
                       name="amenities"
-                      value="Parking"
+                      value="breakfast"
+                      className="mr-1"
+                    />
+                    Breakfast
+                  </label>
+                  <label className="mr-4">
+                    <Field
+                      type="checkbox"
+                      name="amenities"
+                      value="air-condition"
+                      className="mr-1"
+                    />
+                    Air-Condition
+                  </label>
+                  <label className="mr-4">
+                    <Field
+                      type="checkbox"
+                      name="amenities"
+                      value="pool"
+                      className="mr-1"
+                    />
+                    Pool
+                  </label>
+                  <label className="mr-4">
+                    <Field
+                      type="checkbox"
+                      name="amenities"
+                      value="gym"
+                      className="mr-1"
+                    />
+                    Gym
+                  </label>
+                  <label className="mr-4">
+                    <Field
+                      type="checkbox"
+                      name="amenities"
+                      value="parking"
                       className="mr-1"
                     />
                     Parking
-                  </label>
-                  <label className="mr-4">
-                    <Field
-                      type="checkbox"
-                      name="amenities"
-                      value="Air Conditioning"
-                      className="mr-1"
-                    />
-                    Air Conditioning
                   </label>
                 </div>
               </div>
@@ -129,10 +182,11 @@ const UserPreferences = ({ userPreferences, onSavePreferences }) => {
                   name="roomType"
                   className="border rounded p-2 w-full"
                 >
-                  <option value="">Select room type</option>
-                  <option value="Spread">Spread</option>
-                  <option value="Share">Share</option>
-                  <option value="Other">Other</option>
+                  <option value="single">Single</option>
+                  <option value="double">Double</option>
+                  <option value="shared">Shared</option>
+                  <option value="suite">Suite</option>
+                  <option value="family-room">Family Room</option>
                 </Field>
               </div>
 
