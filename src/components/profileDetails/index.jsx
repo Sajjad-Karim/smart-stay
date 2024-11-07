@@ -6,24 +6,32 @@ import userBackground from '../../assets/images/background.jpg';
 import profile from '../../assets/images/profile.jpg';
 import { updateUserInfo, updateUserPicture } from '@/features/user/user.action';
 import { toast } from 'react-toastify';
+import { profileBaseUrl } from '@/http/config';
 const ProfileDetails = ({ isEditing, onEditToggle }) => {
   const dispatch = useDispatch();
+
   const { login } = useSelector((state) => state.auth);
+
   const {
     isUpdateUserSuccess,
     error,
     isUpdateUserFailed,
     isUpdateUserLoading,
+    message,
+    isUpdateUserProfileSuccess,
+    isUpdateUserProfileFailed,
   } = useSelector((state) => state.user);
-  const { message } = useSelector((state) => state.user.user);
+
   const [profileImage, setProfileImage] = useState(
     login?.userData?.displayImg || profile
   );
+
   const [formData, setFormData] = useState({
     name: login.userData.fullName || 'Your Name',
     username: login.userData.username,
     email: login.userData.email,
   });
+
   const fileInputRef = useRef(null); // Create a ref for the file input
 
   const handleImageChange = (event) => {
@@ -70,12 +78,21 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
     if (isUpdateUserFailed) {
       toast.error(error);
     }
+
+    if (isUpdateUserProfileSuccess) {
+      toast.success('Picture Updated');
+    }
+    if (isUpdateUserProfileFailed) {
+      toast.error('Picture Updated');
+    }
   }, [
     isUpdateUserSuccess,
     isUpdateUserFailed,
     isUpdateUserLoading,
     error,
     message,
+    isUpdateUserProfileSuccess,
+    isUpdateUserProfileFailed,
   ]);
 
   return (
@@ -89,7 +106,7 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
       </div>
       <div className="profile-image mb-4 relative">
         <img
-          src={profileImage}
+          src={`${profileBaseUrl}/${profileImage}`}
           alt="Profile"
           className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-lg"
         />
