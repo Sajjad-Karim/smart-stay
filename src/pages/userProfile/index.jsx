@@ -5,17 +5,6 @@ import UserPreferences from "@/components/userPreferances";
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("details");
 
-  const [userPreferences, setUserPreferences] = useState({
-    location: "sajjad",
-    budget: "120$",
-    numOfPersons: 2,
-    amenities: ["Wi-Fi", "parking"],
-    roomType: "spread",
-  });
-  const handleSavePreferences = (updatedPreferences) => {
-    setUserPreferences(updatedPreferences);
-  };
-
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditToggle = () => {
@@ -51,12 +40,7 @@ const UserProfile = () => {
               onEditToggle={handleEditToggle}
             />
           )}
-          {activeTab === "preferences" && (
-            <UserPreferences
-              userPreferences={userPreferences}
-              onSavePreferences={handleSavePreferences}
-            />
-          )}
+          {activeTab === "preferences" && <UserPreferences />}
         </div>
       </div>
     </div>
