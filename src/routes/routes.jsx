@@ -4,7 +4,13 @@ import Home from '../pages/home/Home';
 import Singup from '@/pages/signup';
 import LoginForm from '@/pages/login';
 import UserProfile from '@/pages/userProfile';
-import ProtectedRoutes from './protectedRoutes';
+// import { useSelector } from 'react-redux';
+// import useAuth from '../hooks/auth';
+// const AuthProtection = ({ children }) => {
+//   const { authed } = useAuth();
+
+//   return authed === true ? children : <Navigate to="/login" replace />;
+// };
 
 export const routes = createBrowserRouter([
   {
@@ -23,15 +29,9 @@ export const routes = createBrowserRouter([
         path: '/login',
         element: <LoginForm />,
       },
-
       {
-        element: <ProtectedRoutes />,
-        children: [
-          {
-            path: '/user-profile',
-            element: <UserProfile />,
-          },
-        ],
+        path: '/user-profile',
+        element: <UserProfile />,
       },
     ],
   },

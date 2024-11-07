@@ -102,6 +102,7 @@ const authSlicer = createSlice({
       state.isSessionLoading = false;
       state.isSessionFailed = false;
       state.isSessionSuccess = true;
+      state.isLoginSuccess = true;
       state.login = action.payload;
     });
     builder.addCase(checkSession.rejected, (state, action) => {
