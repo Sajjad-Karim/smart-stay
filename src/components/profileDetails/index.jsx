@@ -4,7 +4,7 @@ import { FaPen } from 'react-icons/fa'; // Import pen icon
 import { useDispatch, useSelector } from 'react-redux';
 import userBackground from '../../assets/images/background.jpg';
 import profile from '../../assets/images/profile.jpg';
-import { updateUserInfo } from '@/features/user/user.action';
+import { updateUserInfo, updateUserPicture } from '@/features/user/user.action';
 import { toast } from 'react-toastify';
 const ProfileDetails = ({ isEditing, onEditToggle }) => {
   const dispatch = useDispatch();
@@ -35,6 +35,10 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
         setProfileImage(reader.result);
       };
       reader.readAsDataURL(file);
+      const fd = new FormData();
+
+      fd.append('file', file);
+      dispatch(updateUserPicture(fd));
     }
   };
 

@@ -1,8 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateInfo } from "./api";
-import { updatePreferences } from "./api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { updateInfo, updatePreferences, updatePicture } from './api';
+
 export const updateUserInfo = createAsyncThunk(
-  "user/update",
+  'user/update',
   async (payload, { rejectWithValue }) => {
     try {
       const res = await updateInfo(payload);
@@ -14,13 +14,26 @@ export const updateUserInfo = createAsyncThunk(
   }
 );
 
+//////////////////////////////////////
 export const updateUserPreferences = createAsyncThunk(
-  "user/preferences",
+  'user/preferences',
   async (payload, { rejectWithValue }) => {
     try {
       const res = await updatePreferences(payload);
-      console.log(res);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response ? err.response.data : err.message);
+    }
+  }
+);
+//////////////////////////////////////
+export const updateUserPicture = createAsyncThunk(
+  'user/picture',
+  async (payload, { rejectWithValue }) => {
+    try {
+      console.log(payload);
 
+      const res = await updatePicture(payload);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response ? err.response.data : err.message);

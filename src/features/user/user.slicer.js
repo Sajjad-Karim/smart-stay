@@ -1,22 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { updateUserInfo } from "./user.action";
-import { updateUserPreferences } from "./user.action";
+import { createSlice } from '@reduxjs/toolkit';
+import {
+  updateUserInfo,
+  updateUserPreferences,
+  updateUserPicture,
+} from './user.action';
 
 const initialState = {
   isUpdateUserSuccess: false,
   isUpdateUserLoading: false,
   isUpdateUserFailed: false,
   user: {},
-  error: "",
+  error: '',
   isUserPreferenceSucesee: false,
   isUserPreferenceLoading: false,
   isUserPreferenceFailed: false,
   userPreference: {},
-  errorUserPreference: "",
+  errorUserPreference: '',
+
+  isUpdateUserProfileSuccess: false,
+  isUpdateUserProfileLoading: false,
+  isUpdateUserProfileFailed: false,
+  updateMsg: '',
+  updateError: '',
 };
 
 const userSlicer = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {},
 
@@ -51,6 +60,21 @@ const userSlicer = createSlice({
       state.isUserPreferenceSucesee = false;
       state.isUserPreferenceFailed = true;
       state.errorUserPreference = action.payload.error;
+    });
+    // update-profile
+    builder.addCase(updateUserPicture.pending, (state) => {
+      state.isUpdateUserProfileLoading = true;
+    });
+    builder.addCase(updateUserPicture.fulfilled, (state, action) => {
+      state.isUpdateUserProfileLoading = false;
+      state.isUpdateUserProfileSuccess = true;
+      state.updateMsg = action.payload;
+    });
+    builder.addCase(updateUserPicture.rejected, (state, action) => {
+      state.isUpdateUserProfileLoading = false;
+      state.isUpdateUserProfileSuccess = false;
+      state.isUpdateUserProfileFailed = true;
+      state.updateError = action.payload.error;
     });
   },
 });
