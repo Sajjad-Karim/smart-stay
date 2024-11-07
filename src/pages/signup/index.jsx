@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { googleLogin, userRegister } from '@/features/auth/auth.actions';
 import { toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
+import Spinner from '@/components/spinner/Spinner';
 const RegistrationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const RegistrationForm = () => {
     isRegisterFailed,
     error,
     isLoginSuccess,
+    isLoginLoading,
   } = useSelector((state) => state.auth);
 
   const formik = useFormik({
@@ -54,6 +56,10 @@ const RegistrationForm = () => {
       toast.error(error);
     }
   }, [isRegisterSuccess, isRegisterFailed, isLoginSuccess, error, navigate]);
+
+  if (isLoginLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex justify-center items-center py-5 bg-gray-100">

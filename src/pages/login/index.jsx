@@ -8,12 +8,13 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { googleLogin, userLogin } from '@/features/auth/auth.actions';
 import { useGoogleLogin } from '@react-oauth/google';
+import Spinner from '@/components/spinner/Spinner';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoginSuccess, isLoginFailed, error } = useSelector(
+  const { isLoginSuccess, isLoginFailed, isLoginLoading, error } = useSelector(
     (state) => state.auth
   );
 
@@ -48,6 +49,10 @@ const LoginForm = () => {
       dispatch(googleLogin(tokenResponse.access_token));
     },
   });
+
+  if (isLoginLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
