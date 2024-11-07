@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FaPen } from 'react-icons/fa'; // Import pen icon
 import { useDispatch, useSelector } from 'react-redux';
 import userBackground from '../../assets/images/background.jpg';
-import profile from '../../assets/images/profile.jpg';
+import profile from '../../assets/images/profile.png';
 import { updateUserInfo, updateUserPicture } from '@/features/user/user.action';
 import { toast } from 'react-toastify';
 import { profileBaseUrl } from '@/http/config';
@@ -22,9 +22,9 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
     isUpdateUserProfileFailed,
   } = useSelector((state) => state.user);
 
-  const [profileImage, setProfileImage] = useState(
-    login?.userData?.displayImg || profile
-  );
+  const toDisplay = `${profileBaseUrl}/${login?.userData?.displayImg}`;
+
+  const [profileImage, setProfileImage] = useState(toDisplay);
 
   const [formData, setFormData] = useState({
     name: login.userData.fullName || 'Your Name',
@@ -106,8 +106,12 @@ const ProfileDetails = ({ isEditing, onEditToggle }) => {
       </div>
       <div className="profile-image mb-4 relative">
         <img
-          src={`${profileBaseUrl}/${profileImage}`}
-          alt="Profile"
+          src={profileImage}
+          alt="profile"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = profile;
+          }}
           className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-lg"
         />
         <button
