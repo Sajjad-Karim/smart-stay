@@ -1,5 +1,5 @@
 // Modal.jsx
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
 const Modal = ({ isOpen, onClose, children }) => {
   const modalRef = useRef(null);
@@ -12,13 +12,13 @@ const Modal = ({ isOpen, onClose, children }) => {
     };
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose]);
 

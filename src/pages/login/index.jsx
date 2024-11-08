@@ -4,18 +4,30 @@ import loginSchema from './loginSchema';
 import { FaGoogle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { googleLogin, userLogin } from '@/features/auth/auth.actions';
 import { useGoogleLogin } from '@react-oauth/google';
 import Spinner from '@/components/spinner/Spinner';
+import Modal from '@/components/modal';
+import { forgetUserPassword } from '@/features/user/user.action';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const handleSend = () => {
+    dispatch(forgetUserPassword(email));
+    setIsModalOpen(false);
+  };
+
   const { isLoginSuccess, isLoginFailed, isLoginLoading, error } = useSelector(
     (state) => state.auth
+  );
+  const { isForgetPasswordSuccess, isForgetPasswordLoading } = useSelector(
+    (state) => state.user
   );
 
   const formik = useFormik({
@@ -42,7 +54,12 @@ const LoginForm = () => {
     if (isLoginFailed) {
       toast.error(error);
     }
-  }, [isLoginSuccess, isLoginFailed, error, navigate]);
+    if (isForgetPasswordSuccess) {
+      setEmail('');
+
+      toast.info(`Check your email to reset password`);
+    }
+  }, [isLoginSuccess, isLoginFailed, error, isForgetPasswordSuccess, navigate]);
 
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -89,6 +106,12 @@ const LoginForm = () => {
                 {formik.errors.password}
               </div>
             ) : null}
+            <p
+              className="underline text-blue cursor-pointer"
+              onClick={() => setIsModalOpen(true)} // Step 3: Open modal on click
+            >
+              Forget Password?
+            </p>
           </div>
 
           <button
@@ -99,6 +122,26 @@ const LoginForm = () => {
           </button>
         </form>
 
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h3 className="text-lg font-bold mb-4">Reset Password</h3>
+          <p className="mb-4">
+            Enter your email to receive password reset instructions.
+          </p>
+          <input
+            type="email"
+            placeholder="Your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={handleSend}
+            className="w-full py-2 bg-blue-500 text-grey-700 border font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            {isForgetPasswordLoading ? 'loading' : 'send'}
+          </button>
+        </Modal>
+
         <div className="mt-6">
           <button
             onClick={() => login()}
@@ -108,11 +151,6 @@ const LoginForm = () => {
           </button>
         </div>
       </div>
-
-      {/* Modal for OTP Verification */}
-      {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <VerifyOTP />
-      </Modal> */}
     </div>
   );
 };

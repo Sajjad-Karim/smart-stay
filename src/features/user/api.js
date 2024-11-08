@@ -21,3 +21,6 @@ export const updatePicture = (payload) =>
       Authorization: localStorage.getItem('authToken'),
     },
   });
+// forget password
+export const forgetPassword = (payload) =>
+  STAY.get(`user/forget-password/${payload}`);

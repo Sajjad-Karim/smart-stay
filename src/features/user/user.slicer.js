@@ -3,6 +3,7 @@ import {
   updateUserInfo,
   updateUserPreferences,
   updateUserPicture,
+  forgetUserPassword,
 } from './user.action';
 
 const initialState = {
@@ -22,6 +23,10 @@ const initialState = {
   isUpdateUserProfileFailed: false,
   updateMsg: '',
   updateError: '',
+
+  isForgetPasswordSuccess: false,
+  isForgetPasswordLoading: false,
+  isForgetPasswordFailed: false,
 };
 
 const userSlicer = createSlice({
@@ -75,6 +80,19 @@ const userSlicer = createSlice({
       state.isUpdateUserProfileSuccess = false;
       state.isUpdateUserProfileFailed = true;
       state.updateError = action.payload.error;
+    });
+    // forget-password
+    builder.addCase(forgetUserPassword.pending, (state) => {
+      state.isForgetPasswordLoading = true;
+    });
+    builder.addCase(forgetUserPassword.fulfilled, (state) => {
+      state.isForgetPasswordLoading = false;
+      state.isForgetPasswordSuccess = true;
+    });
+    builder.addCase(forgetUserPassword.rejected, (state) => {
+      state.isForgetPasswordLoading = false;
+      state.isForgetPasswordSuccess = false;
+      state.isForgetPasswordFailed = true;
     });
   },
 });

@@ -46,7 +46,7 @@ const RegistrationForm = () => {
     if (isRegisterSuccess) {
       toast.success('Registered Successfully');
       setIsModalOpen(true);
-      navigate('login');
+      navigate('/login');
     }
     if (isLoginSuccess) {
       toast.success('Login Successfully');
