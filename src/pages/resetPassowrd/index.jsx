@@ -6,9 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
-  const { isResetPasswordSuccess, isResetPasswordLoading } = useSelector(
-    (state) => state.user
-  );
+  const {
+    isResetPasswordSuccess,
+    isResetPasswordLoading,
+    isResetPasswordFailed,
+  } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +41,11 @@ const ResetPassword = () => {
       toast.success('password reset successfully');
       navigate('/login');
     }
-  }, [isResetPasswordSuccess, navigate]);
+    if (isResetPasswordFailed) {
+      toast.error('Invalid Token or Token expired');
+      navigate('/login');
+    }
+  }, [isResetPasswordSuccess, isResetPasswordFailed, navigate]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
