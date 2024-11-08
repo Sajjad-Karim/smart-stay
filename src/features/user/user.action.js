@@ -4,6 +4,7 @@ import {
   updatePreferences,
   updatePicture,
   forgetPassword,
+  updatePassword,
 } from './api';
 
 export const updateUserInfo = createAsyncThunk(
@@ -49,6 +50,18 @@ export const forgetUserPassword = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const res = await forgetPassword(payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response ? err.response.data : err.message);
+    }
+  }
+);
+//////////////////////////////////////
+export const updateUserPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await updatePassword(payload);
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response ? err.response.data : err.message);

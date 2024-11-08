@@ -4,6 +4,7 @@ import Home from '../pages/home/Home';
 import Singup from '@/pages/signup';
 import LoginForm from '@/pages/login';
 import UserProfile from '@/pages/userProfile';
+import ResetPassword from '@/pages/resetPassowrd';
 // import { useSelector } from 'react-redux';
 // import useAuth from '../hooks/auth';
 // const AuthProtection = ({ children }) => {
@@ -32,6 +33,10 @@ export const routes = createBrowserRouter([
       {
         path: '/user-profile',
         element: <UserProfile />,
+      },
+      {
+        path: '/reset-password/:token',
+        element: <ResetPassword />,
       },
     ],
   },

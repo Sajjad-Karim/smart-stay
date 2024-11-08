@@ -4,6 +4,7 @@ import {
   updateUserPreferences,
   updateUserPicture,
   forgetUserPassword,
+  updateUserPassword,
 } from './user.action';
 
 const initialState = {
@@ -27,6 +28,10 @@ const initialState = {
   isForgetPasswordSuccess: false,
   isForgetPasswordLoading: false,
   isForgetPasswordFailed: false,
+
+  isResetPasswordSuccess: false,
+  isResetPasswordLoading: false,
+  isResetPasswordFailed: false,
 };
 
 const userSlicer = createSlice({
@@ -93,6 +98,19 @@ const userSlicer = createSlice({
       state.isForgetPasswordLoading = false;
       state.isForgetPasswordSuccess = false;
       state.isForgetPasswordFailed = true;
+    });
+    // reset-password
+    builder.addCase(updateUserPassword.pending, (state) => {
+      state.isResetPasswordLoading = true;
+    });
+    builder.addCase(updateUserPassword.fulfilled, (state) => {
+      state.isResetPasswordLoading = false;
+      state.isResetPasswordSuccess = true;
+    });
+    builder.addCase(updateUserPassword.rejected, (state) => {
+      state.isResetPasswordLoading = false;
+      state.isResetPasswordSuccess = false;
+      state.isResetPasswordFailed = true;
     });
   },
 });

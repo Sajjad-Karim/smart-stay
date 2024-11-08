@@ -24,3 +24,6 @@ export const updatePicture = (payload) =>
 // forget password
 export const forgetPassword = (payload) =>
   STAY.get(`user/forget-password/${payload}`);
+// update password
+export const updatePassword = (payload) =>
+  STAY.post('user/update-password', payload);

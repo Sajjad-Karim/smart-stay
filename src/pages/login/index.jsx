@@ -20,7 +20,6 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const handleSend = () => {
     dispatch(forgetUserPassword(email));
-    setIsModalOpen(false);
   };
 
   const { isLoginSuccess, isLoginFailed, isLoginLoading, error } = useSelector(
@@ -56,7 +55,7 @@ const LoginForm = () => {
     }
     if (isForgetPasswordSuccess) {
       setEmail('');
-
+      setIsModalOpen(false);
       toast.info(`Check your email to reset password`);
     }
   }, [isLoginSuccess, isLoginFailed, error, isForgetPasswordSuccess, navigate]);
