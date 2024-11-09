@@ -1,26 +1,26 @@
 // FeaturesOverview.jsx
-import React from "react";
-import { FaLock, FaStar, FaCogs, FaPhoneAlt } from "react-icons/fa";
+
+import { FaLock, FaStar, FaCogs, FaPhoneAlt } from 'react-icons/fa';
 
 const features = [
   {
     icon: <FaLock size={32} />,
-    title: "Secure Payments",
-    description: "Enjoy secure and seamless transactions.",
+    title: 'Secure Payments',
+    description: 'Enjoy secure and seamless transactions.',
   },
   {
     icon: <FaStar size={32} />,
-    title: "Personalized Recommendations",
-    description: "Get stay suggestions tailored to you.",
+    title: 'Personalized Recommendations',
+    description: 'Get stay suggestions tailored to you.',
   },
   {
     icon: <FaCogs size={32} />,
-    title: "Easy-to-Use Platform",
-    description: "Find and book accommodations easily.",
+    title: 'Easy-to-Use Platform',
+    description: 'Find and book accommodations easily.',
   },
   {
     icon: <FaPhoneAlt size={32} />,
-    title: "24/7 Support",
+    title: '24/7 Support',
     description: "We're here to help anytime, anywhere.",
   },
 ];
