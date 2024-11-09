@@ -1,10 +1,36 @@
-const SearchFilter = () => {
+import { useState } from 'react';
+
+const SearchFilter = ({ onFilterChange }) => {
+  const [filters, setFilters] = useState({
+    location: '',
+    price: '',
+    amenities: [],
+    rating: '',
+    roomType: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    let updatedFilters = { ...filters };
+    console.log(filters.price);
+
+    if (type === 'checkbox') {
+      updatedFilters.amenities = checked
+        ? [...filters.amenities, value]
+        : filters.amenities.filter((amenity) => amenity !== value);
+    } else {
+      updatedFilters[name] = value;
+    }
+
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters);
+  };
+
   return (
     <div className="w-[95%] mx-auto my-[30px] p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
         Accommodation
       </h2>
-
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {/* Location Filter */}
         <div>
@@ -13,22 +39,34 @@ const SearchFilter = () => {
           </label>
           <input
             type="text"
+            name="location"
+            value={filters.location}
+            onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="City or landmark"
           />
         </div>
 
-        {/* Price Filter */}
+        {/* Price Range Filter (Dropdown) */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Price Range
           </label>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <select
+            name="price"
+            value={filters.price}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
             <option value="">Any</option>
-            <option value="0-50">$0 - $50</option>
-            <option value="50-100">$50 - $100</option>
-            <option value="100-200">$100 - $200</option>
-            <option value="200+">$200+</option>
+            <option value="1000 - 5000">1000-5000 PKR</option>
+            <option value="5000 - 10000">5000-10,000 PKR</option>
+            <option value="1000 - 20000">10,00-20,000 PKR</option>
+            <option value="30000 - 40000">30,000-40,000 PKR</option>
+            <option value="50000 - 60000">50,000-60,000 PKR</option>
+            <option value="60000 - 70000">60,000-70,000 PKR</option>
+            <option value="70000 - 8000">70,000-80,00 PKR</option>
+            <option value="90000 - 100000">90,000-1,00,000 PKR</option>
           </select>
         </div>
 
@@ -37,18 +75,32 @@ const SearchFilter = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Amenities
           </label>
-          <div className="flex flex-wrap gap-1">
-            {['WiFi', 'Pool', 'Parking', 'Gym'].map((amenity) => (
-              <label
-                key={amenity}
-                className="flex items-center text-sm space-x-1"
-              >
+          <div className="space-y-2">
+            {[
+              'Wi-Fi',
+              'breakfast',
+              'air-condition',
+              'pool',
+              'gym',
+              'parking',
+            ].map((amenity) => (
+              <div key={amenity} className="flex items-center">
                 <input
                   type="checkbox"
-                  className="focus:ring-2 focus:ring-blue-500"
+                  id={amenity}
+                  name="amenities"
+                  value={amenity}
+                  checked={filters.amenities.includes(amenity)}
+                  onChange={handleChange}
+                  className="mr-2"
                 />
-                <span>{amenity}</span>
-              </label>
+                <label
+                  htmlFor={amenity}
+                  className="text-sm font-medium text-gray-700"
+                >
+                  {amenity}
+                </label>
+              </div>
             ))}
           </div>
         </div>
@@ -58,7 +110,12 @@ const SearchFilter = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Rating
           </label>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <select
+            name="rating"
+            value={filters.rating}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
             <option value="">Any</option>
             <option value="1">1 Star</option>
             <option value="2">2 Stars</option>
@@ -73,12 +130,18 @@ const SearchFilter = () => {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Room Type
           </label>
-          <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <select
+            name="roomType"
+            value={filters.roomType}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
             <option value="">Any</option>
             <option value="single">Single</option>
             <option value="double">Double</option>
+            <option value="shared">Shared</option>
             <option value="suite">Suite</option>
-            <option value="family">Family</option>
+            <option value="family-room">Family Room</option>
           </select>
         </div>
       </div>
