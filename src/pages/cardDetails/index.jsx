@@ -72,7 +72,7 @@ const HotelDetails = () => {
                 className={i < rating ? 'text-yellow-500' : 'text-gray-300'}
               />
             ))}
-            <span className="ml-2 text-gray-700 font-medium">{rating}/10</span>
+            <span className="ml-2 text-gray-700 font-medium">{rating}/5</span>
           </div>
 
           {/* Amenities */}

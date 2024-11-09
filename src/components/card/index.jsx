@@ -19,7 +19,7 @@ const HotelCard = ({
         <h3 className="text-xl font-semibold text-gray-800">{hotelName}</h3>
         <p className="text-gray-500 text-sm">{HotelLocation}</p>
         <p className="text-gray-500 text-sm flex items-center">
-          Rating : 10 /{rating}
+          Rating : 5 /{rating}
           <FaStarHalfAlt className=" text-yellow-600 ml-[5px]" />
         </p>
         <p className="text-gray-700 mt-1 text-sm font-medium">
