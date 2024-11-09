@@ -5,6 +5,7 @@ import Singup from '@/pages/signup';
 import LoginForm from '@/pages/login';
 import UserProfile from '@/pages/userProfile';
 import ResetPassword from '@/pages/resetPassowrd';
+import HotelDetails from '@/pages/cardDetails';
 // import { useSelector } from 'react-redux';
 // import useAuth from '../hooks/auth';
 // const AuthProtection = ({ children }) => {
@@ -37,6 +38,10 @@ export const routes = createBrowserRouter([
       {
         path: '/reset-password/:token',
         element: <ResetPassword />,
+      },
+      {
+        path: '/hotel-details/:_id',
+        element: <HotelDetails />,
       },
     ],
   },

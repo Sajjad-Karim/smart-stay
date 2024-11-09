@@ -1,22 +1,16 @@
 // src/components/card/listcards.jsx
-import React from "react";
-import HotelCard from "./index"; // Ensure you import the HotelCard component correctly
-import SlickSlider from "../carousel";
-const HotelList = ({ hotels }) => {
+/* eslint-disable react/prop-types */
+
+import HotelCard from './index'; // Ensure you import the HotelCard component correctly
+import SlickSlider from '../carousel';
+const HotelList = ({ hotels, bookNow }) => {
   return (
     <div className="px-7">
       {hotels && (
         <SlickSlider slides={4}>
           {hotels &&
             hotels.map((hotel) => (
-              <HotelCard
-                key={hotel.id}
-                image={hotel.image}
-                name={hotel.name}
-                location={hotel.location}
-                roomType={hotel.roomType}
-                description={hotel.description}
-              />
+              <HotelCard {...hotel} key={hotel._id} bookNow={bookNow} />
             ))}
         </SlickSlider>
       )}

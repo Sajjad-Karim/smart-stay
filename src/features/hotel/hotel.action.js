@@ -13,7 +13,7 @@ export const getHotelData = createAsyncThunk(
   }
 );
 export const getSingleHotel = createAsyncThunk(
-  'hotels',
+  'hotels/details',
   async (payload, { rejectWithValue }) => {
     try {
       const res = await hotelDetails(payload);

@@ -15,7 +15,7 @@ const initialState = {
   error: '',
 };
 
-const userSlicer = createSlice({
+const hotelSlicer = createSlice({
   name: 'hotel',
   initialState,
   reducers: {},
@@ -55,4 +55,4 @@ const userSlicer = createSlice({
   },
 });
 
-export default userSlicer.reducer;
+export default hotelSlicer.reducer;
