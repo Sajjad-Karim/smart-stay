@@ -1,11 +1,21 @@
 // src/components/HotelDetails.jsx
-import Spinner from '@/components/spinner/Spinner';
-import { FaStar, FaMapMarkerAlt, FaBed, FaCheckCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-
+import Spinner from "@/components/spinner/Spinner";
+import { FaStar, FaMapMarkerAlt, FaBed, FaCheckCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import Reviews from "@/components/reviews";
+import { getSingleHotel } from "@/features/hotel/hotel.action";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 const HotelDetails = () => {
   // Static hotel data
+  const { _id } = useParams();
 
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSingleHotel(_id));
+  }, [_id]);
   const {
     hotelDetails: {
       AccommodationTypeName,
@@ -48,11 +58,11 @@ const HotelDetails = () => {
           <p className="text-gray-700 mb-4">{Description}</p>
           <div className="flex flex-wrap gap-4 mt-4">
             <div className="text-sm text-gray-600 flex items-center">
-              <FaBed className="mr-2 text-indigo-500" /> Type:{' '}
+              <FaBed className="mr-2 text-indigo-500" /> Type:{" "}
               {AccommodationTypeName}
             </div>
             <div className="text-sm text-gray-600 flex items-center">
-              <FaCheckCircle className="mr-2 text-green-500" /> Free Slots:{' '}
+              <FaCheckCircle className="mr-2 text-green-500" /> Free Slots:{" "}
               {freeSlots}
             </div>
           </div>
@@ -69,7 +79,7 @@ const HotelDetails = () => {
             {[...Array(5)].map((_, i) => (
               <FaStar
                 key={i}
-                className={i < rating ? 'text-yellow-500' : 'text-gray-300'}
+                className={i < rating ? "text-yellow-500" : "text-gray-300"}
               />
             ))}
             <span className="ml-2 text-gray-700 font-medium">{rating}/5</span>
@@ -90,6 +100,7 @@ const HotelDetails = () => {
           </ul>
         </div>
       </div>
+      <Reviews />
     </div>
   );
 };

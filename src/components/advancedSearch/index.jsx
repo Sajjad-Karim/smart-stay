@@ -1,20 +1,19 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useState } from "react";
 const SearchFilter = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
-    location: '',
-    price: '',
+    location: "",
+    price: "",
     amenities: [],
-    rating: '',
-    roomType: '',
+    rating: "",
+    roomType: "",
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     let updatedFilters = { ...filters };
-    console.log(filters.price);
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       updatedFilters.amenities = checked
         ? [...filters.amenities, value]
         : filters.amenities.filter((amenity) => amenity !== value);
@@ -59,14 +58,16 @@ const SearchFilter = ({ onFilterChange }) => {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">Any</option>
-            <option value="1000 - 5000">1000-5000 PKR</option>
-            <option value="5000 - 10000">5000-10,000 PKR</option>
-            <option value="1000 - 20000">10,00-20,000 PKR</option>
-            <option value="30000 - 40000">30,000-40,000 PKR</option>
-            <option value="50000 - 60000">50,000-60,000 PKR</option>
-            <option value="60000 - 70000">60,000-70,000 PKR</option>
-            <option value="70000 - 8000">70,000-80,00 PKR</option>
-            <option value="90000 - 100000">90,000-1,00,000 PKR</option>
+            <option value="1000">1000+ PKR</option>
+            <option value="2000">2000+ PKR</option>
+            <option value="3000">3000+ PKR</option>
+            <option value="40000">4000+ PKR</option>
+            <option value="50000">5000+ PKR</option>
+            <option value="60000">6000+ PKR</option>
+            <option value="70000">7000+ PKR</option>
+            <option value="80000">8000+ PKR</option>
+            <option value="90000">9000+ PKR</option>
+            <option value="100000">10000+ PKR</option>
           </select>
         </div>
 
@@ -77,12 +78,12 @@ const SearchFilter = ({ onFilterChange }) => {
           </label>
           <div className="space-y-2">
             {[
-              'Wi-Fi',
-              'breakfast',
-              'air-condition',
-              'pool',
-              'gym',
-              'parking',
+              "Wi-Fi",
+              "breakfast",
+              "air-condition",
+              "pool",
+              "gym",
+              "parking",
             ].map((amenity) => (
               <div key={amenity} className="flex items-center">
                 <input
