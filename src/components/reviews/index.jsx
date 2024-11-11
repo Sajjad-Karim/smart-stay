@@ -1,8 +1,7 @@
-import React from "react";
-import ReviewCard from "./card";
-import SlickSlider from "../carousel";
-import { useSelector } from "react-redux";
-const Reviews = ({}) => {
+import ReviewCard from './card';
+import SlickSlider from '../carousel';
+import { useSelector } from 'react-redux';
+const Reviews = () => {
   const { reviews } = useSelector((state) => state.hotel.hotelDetails);
 
   return (

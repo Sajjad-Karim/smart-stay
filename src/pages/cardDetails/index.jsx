@@ -31,9 +31,10 @@ const HotelDetails = () => {
       Image,
       Name,
       freeSlots,
-      rating,
+
       hotelAmenities,
       hotelRateInfo,
+      averageRating,
     },
     isHotelDetailsLoading,
   } = useSelector((state) => state.hotel);
@@ -114,11 +115,17 @@ const HotelDetails = () => {
                 {[...Array(5)].map((_, i) => (
                   <FaStar
                     key={i}
-                    className={i < rating ? 'text-yellow-500' : 'text-gray-300'}
+                    className={
+                      averageRating - i >= 1
+                        ? 'text-yellow-500'
+                        : averageRating - i > 0
+                        ? 'text-yellow-300'
+                        : 'text-gray-300'
+                    }
                   />
                 ))}
                 <span className="ml-2 text-gray-700 font-medium">
-                  {rating}/5
+                  {averageRating ? averageRating.toFixed(1) : '0.0'}/5
                 </span>
               </div>
 
