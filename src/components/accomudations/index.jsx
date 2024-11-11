@@ -1,12 +1,12 @@
 // src/components/Accomdations.jsx
-import { useEffect, useState } from "react";
-import SearchFilter from "../advancedSearch";
-import HotelList from "../card/listcards";
-import { getHotelData } from "@/features/hotel/hotel.action";
-import { useDispatch, useSelector } from "react-redux";
-import { getSingleHotel } from "@/features/hotel/hotel.action";
-import { useNavigate } from "react-router-dom";
-import Spinner from "../spinner/Spinner";
+import { useEffect, useState } from 'react';
+import SearchFilter from '../advancedSearch';
+import HotelList from '../card/listcards';
+import { getHotelData } from '@/features/hotel/hotel.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSingleHotel } from '@/features/hotel/hotel.action';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../spinner/Spinner';
 
 const Accomdations = () => {
   const { hotelData, isHotelDataLoading } = useSelector((state) => state.hotel);
@@ -36,8 +36,7 @@ const Accomdations = () => {
           )
         : true;
       const matchesPrice = filters.price
-        ? hotel.hotelRateInfo.MinimumAmount <= Number(filters.price) &&
-          hotel.hotelRateInfo.MaximumAmount >= Number(filters.price)
+        ? hotel.hotelRateInfo.MinimumAmount >= Number(filters.price)
         : true;
       const matchesRating = filters.rating
         ? hotel.rating === Number(filters.rating)

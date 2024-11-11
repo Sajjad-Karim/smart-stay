@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState } from 'react';
 const SearchFilter = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
-    location: "",
-    price: "",
+    location: '',
+    price: '',
     amenities: [],
-    rating: "",
-    roomType: "",
+    rating: '',
+    roomType: '',
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     let updatedFilters = { ...filters };
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       updatedFilters.amenities = checked
         ? [...filters.amenities, value]
         : filters.amenities.filter((amenity) => amenity !== value);
@@ -78,12 +78,12 @@ const SearchFilter = ({ onFilterChange }) => {
           </label>
           <div className="space-y-2">
             {[
-              "Wi-Fi",
-              "breakfast",
-              "air-condition",
-              "pool",
-              "gym",
-              "parking",
+              'Wi-Fi',
+              'breakfast',
+              'air-condition',
+              'pool',
+              'gym',
+              'parking',
             ].map((amenity) => (
               <div key={amenity} className="flex items-center">
                 <input

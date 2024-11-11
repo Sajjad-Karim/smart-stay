@@ -10,8 +10,8 @@ const HotelCard = ({
   rating,
   bookNow,
   _id,
+  hotelRateInfo: { MinimumAmount },
 }) => {
-
   const hotelName = Name?.slice(0, 30) + '...';
   return (
     <div className="max-w-sm mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
@@ -29,7 +29,11 @@ const HotelCard = ({
         <p className="text-gray-700 mt-1 text-sm font-medium">
           Free Slots: {freeSlots}
         </p>
-        <p className="mt-2 text-gray-600 text-sm line-clamp-3"></p>
+
+        <p className="mt-2 text-gray-600 text-sm line-clamp-3">
+          Starting From {MinimumAmount}
+        </p>
+
         <div className="mt-4">
           <button
             onClick={() => bookNow(_id)}
