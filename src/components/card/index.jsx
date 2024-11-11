@@ -7,7 +7,7 @@ const HotelCard = ({
   Name,
   freeSlots,
   Image,
-  rating,
+  averageRating,
   bookNow,
   _id,
   hotelRateInfo: { MinimumAmount },
@@ -20,7 +20,7 @@ const HotelCard = ({
         <h3 className="text-xl font-semibold text-gray-800">{hotelName}</h3>
         <p className="text-gray-500 text-sm">{HotelLocation}</p>
         <p className="text-gray-500 text-sm flex items-center">
-          Rating : {rating}/5
+          {averageRating != 0 ? `Rating : ${averageRating}/5` : 'Not Rated Yet'}
           <FaStarHalfAlt className=" text-yellow-600 ml-[5px]" />
         </p>
         <p className="text-gray-700 mt-1 text-sm font-medium">

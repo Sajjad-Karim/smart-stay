@@ -125,7 +125,7 @@ const HotelDetails = () => {
                   />
                 ))}
                 <span className="ml-2 text-gray-700 font-medium">
-                  {averageRating ? averageRating.toFixed(1) : '0.0'}/5
+                  {averageRating ? averageRating : '0.0'}/5
                 </span>
               </div>
 
