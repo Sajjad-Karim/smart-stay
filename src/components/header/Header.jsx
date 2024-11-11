@@ -28,10 +28,10 @@ const Header = () => {
             <Link>Home</Link>
           </li>
           <li>
-            <Link>About</Link>
+            <Link to={'about-us'}>About</Link>
           </li>
           <li>
-            <Link>Contact us</Link>
+            <Link to={"faq"}>FAQ`s</Link>
           </li>
           <li>
             <Link>Blogs</Link>
@@ -43,8 +43,7 @@ const Header = () => {
               <Button
                 className="text-gray-800 rounded-full"
                 variant="outline"
-                onClick={() => setToggle(!toggle)}
-              >
+                onClick={() => setToggle(!toggle)}>
                 <FaUserCircle />
               </Button>
               {toggle && (
@@ -52,14 +51,12 @@ const Header = () => {
                   <Link
                     to={"user-profile"}
                     onClick={() => setToggle(!toggle)}
-                    className="py-[5px] w-[100%] block cursor-pointer pl-[5px] hover:bg-slate-100"
-                  >
+                    className="py-[5px] w-[100%] block cursor-pointer pl-[5px] hover:bg-slate-100">
                     Profile
                   </Link>
                   <li
                     onClick={handleLogout}
-                    className="py-[5px] w-[100%] cursor-pointer pl-[5px] hover:bg-slate-100"
-                  >
+                    className="py-[5px] w-[100%] cursor-pointer pl-[5px] hover:bg-slate-100">
                     Logout
                   </li>
                 </ul>
