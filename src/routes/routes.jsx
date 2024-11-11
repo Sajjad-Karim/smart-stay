@@ -1,12 +1,11 @@
-import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/layout/Layout";
-import Home from "../pages/home/Home";
-import Singup from "@/pages/signup";
-import LoginForm from "@/pages/login";
-import UserProfile from "@/pages/userProfile";
-import ResetPassword from "@/pages/resetPassowrd";
-import HotelDetails from "@/pages/cardDetails";
-import FAQ from "@/pages/faq";
+import { createBrowserRouter } from 'react-router-dom';
+import Layout from '../components/layout/Layout';
+import Home from '../pages/home/Home';
+import Singup from '@/pages/signup';
+import LoginForm from '@/pages/login';
+import UserProfile from '@/pages/userProfile';
+import ResetPassword from '@/pages/resetPassowrd';
+import HotelDetails from '@/pages/cardDetails';
 // import { useSelector } from 'react-redux';
 // import useAuth from '../hooks/auth';
 // const AuthProtection = ({ children }) => {
@@ -23,6 +22,10 @@ export const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: '/about-us',
+        element: <About />,
       },
       {
         path: "/faq",
