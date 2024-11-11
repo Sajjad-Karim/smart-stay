@@ -71,6 +71,9 @@ const HotelDetails = () => {
                 <FaMapMarkerAlt className="mr-2 text-yellow-400" />
                 <span className="text-gray-300">{HotelLocation}</span>
               </div>
+              <h2 className="text-2xl font-bold ">
+                {hotelRateInfo?.MinimumAmount} PKR/Day
+              </h2>
             </div>
           </div>
 
