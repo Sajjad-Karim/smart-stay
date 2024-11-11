@@ -39,7 +39,7 @@ const HotelCard = ({
             onClick={() => bookNow(_id)}
             className="w-full bg-blue-500 text-gray-500 border py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-200"
           >
-            Book Now
+            View Details
           </button>
         </div>
       </div>
