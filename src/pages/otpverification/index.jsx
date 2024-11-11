@@ -13,7 +13,6 @@ export default function VerifyOTP() {
   const initialValues = { otp: "" };
 
   const handleSubmit = (values) => {
-    console.log(values);
     alert("OTP verified!");
   };
 

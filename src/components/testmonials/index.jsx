@@ -2,7 +2,7 @@
 import React from "react";
 import TestimonialCard from "./testimonialCard";
 import SlickSlider from "../carousel";
-const Testimonials = () => {
+const Testimonials = ({}) => {
   const testimonialsData = [
     {
       text: "SmartStay made finding the perfect stay so easy. The recommendations were spot on!",

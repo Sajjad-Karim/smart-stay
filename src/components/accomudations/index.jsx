@@ -1,12 +1,12 @@
 // src/components/Accomdations.jsx
-import { useEffect, useState } from 'react';
-import SearchFilter from '../advancedSearch';
-import HotelList from '../card/listcards';
-import { getHotelData } from '@/features/hotel/hotel.action';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSingleHotel } from '@/features/hotel/hotel.action';
-import { useNavigate } from 'react-router-dom';
-import Spinner from '../spinner/Spinner';
+import { useEffect, useState } from "react";
+import SearchFilter from "../advancedSearch";
+import HotelList from "../card/listcards";
+import { getHotelData } from "@/features/hotel/hotel.action";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleHotel } from "@/features/hotel/hotel.action";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../spinner/Spinner";
 
 const Accomdations = () => {
   const { hotelData, isHotelDataLoading } = useSelector((state) => state.hotel);

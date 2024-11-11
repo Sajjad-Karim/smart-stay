@@ -11,6 +11,7 @@ const HotelCard = ({
   bookNow,
   _id,
 }) => {
+
   const hotelName = Name?.slice(0, 30) + '...';
   return (
     <div className="max-w-sm mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
