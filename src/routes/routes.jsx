@@ -1,11 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../components/layout/Layout';
-import Home from '../pages/home/Home';
-import Singup from '@/pages/signup';
-import LoginForm from '@/pages/login';
-import UserProfile from '@/pages/userProfile';
-import ResetPassword from '@/pages/resetPassowrd';
-import HotelDetails from '@/pages/cardDetails';
+import { createBrowserRouter } from "react-router-dom";
+import Layout from "../components/layout/Layout";
+import Home from "../pages/home/Home";
+import Singup from "@/pages/signup";
+import LoginForm from "@/pages/login";
+import UserProfile from "@/pages/userProfile";
+import ResetPassword from "@/pages/resetPassowrd";
+import HotelDetails from "@/pages/cardDetails";
+import FAQ from "@/pages/faq";
 // import { useSelector } from 'react-redux';
 // import useAuth from '../hooks/auth';
 // const AuthProtection = ({ children }) => {
@@ -16,31 +17,35 @@ import HotelDetails from '@/pages/cardDetails';
 
 export const routes = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
-        path: '/signup',
+        path: "/faq",
+        element: <FAQ />,
+      },
+      {
+        path: "/signup",
         element: <Singup />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <LoginForm />,
       },
       {
-        path: '/user-profile',
+        path: "/user-profile",
         element: <UserProfile />,
       },
       {
-        path: '/reset-password/:token',
+        path: "/reset-password/:token",
         element: <ResetPassword />,
       },
       {
-        path: '/hotel-details/:_id',
+        path: "/hotel-details/:_id",
         element: <HotelDetails />,
       },
     ],

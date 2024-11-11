@@ -1,10 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../ui/button';
-import logo from '../../assets/logo/smartstay.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
-import { resetLoginState } from '@/features/auth/auth.slicer';
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import logo from "../../assets/logo/smartstay.png";
+import { useDispatch, useSelector } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import { useState } from "react";
+import { resetLoginState } from "@/features/auth/auth.slicer";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,13 +13,13 @@ const Header = () => {
   const handleLogout = () => {
     setToggle(false);
     dispatch(resetLoginState());
-    navigate('/');
+    navigate("/");
   };
   return (
     <>
       <header className="shadow-md  text-gray-800 flex justify-between items-center px-16 py-3">
         <div>
-          <Link to={'/'}>
+          <Link to={"/"}>
             <img src={logo} alt="logo" className="h-[30px]" />
           </Link>
         </div>
@@ -31,7 +31,7 @@ const Header = () => {
             <Link>About</Link>
           </li>
           <li>
-            <Link>Contact us</Link>
+            <Link to={"faq"}>FAQ`s</Link>
           </li>
           <li>
             <Link>Blogs</Link>
@@ -43,23 +43,20 @@ const Header = () => {
               <Button
                 className="text-gray-800 rounded-full"
                 variant="outline"
-                onClick={() => setToggle(!toggle)}
-              >
+                onClick={() => setToggle(!toggle)}>
                 <FaUserCircle />
               </Button>
               {toggle && (
                 <ul className=" absolute w-[100px]  rounded bg-white py-[10px]">
                   <Link
-                    to={'user-profile'}
+                    to={"user-profile"}
                     onClick={() => setToggle(!toggle)}
-                    className="py-[5px] w-[100%] block cursor-pointer pl-[5px] hover:bg-slate-100"
-                  >
+                    className="py-[5px] w-[100%] block cursor-pointer pl-[5px] hover:bg-slate-100">
                     Profile
                   </Link>
                   <li
                     onClick={handleLogout}
-                    className="py-[5px] w-[100%] cursor-pointer pl-[5px] hover:bg-slate-100"
-                  >
+                    className="py-[5px] w-[100%] cursor-pointer pl-[5px] hover:bg-slate-100">
                     Logout
                   </li>
                 </ul>
@@ -67,12 +64,12 @@ const Header = () => {
             </div>
           ) : (
             <>
-              <Link to={'signup'}>
+              <Link to={"signup"}>
                 <Button className="text-gray-800" variant="outline">
                   Sign Up
                 </Button>
               </Link>
-              <Link to={'login'}>
+              <Link to={"login"}>
                 <Button className="text-gray-800" variant="outline">
                   Login
                 </Button>
