@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import signupSchema from './singupSchema';
-import Modal from '@/components/modal';
-import { FaGoogle } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { googleLogin, userRegister } from '@/features/auth/auth.actions';
-import { toast } from 'react-toastify';
-import { useGoogleLogin } from '@react-oauth/google';
-import Spinner from '@/components/spinner/Spinner';
+import { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import signupSchema from "./singupSchema";
+import Modal from "@/components/modal";
+import { FaGoogle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { googleLogin, userRegister } from "@/features/auth/auth.actions";
+import { toast } from "react-toastify";
+import { useGoogleLogin } from "@react-oauth/google";
+import Spinner from "@/components/spinner/Spinner";
 const RegistrationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -25,11 +25,11 @@ const RegistrationForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: '',
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      fullName: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
@@ -44,13 +44,13 @@ const RegistrationForm = () => {
 
   useEffect(() => {
     if (isRegisterSuccess) {
-      toast.success('Registered Successfully');
+      toast.success("Registered Successfully");
       setIsModalOpen(true);
-      navigate('/login');
+      navigate("/login");
     }
     if (isLoginSuccess) {
-      toast.success('Login Successfully');
-      navigate('/');
+      toast.success("Login Successfully");
+      navigate("/");
     }
     if (isRegisterFailed) {
       toast.error(error);
@@ -101,7 +101,7 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700">Email</label>{' '}
+            <label className="block text-gray-700">Email</label>{" "}
             {/* New email label */}
             <input
               type="email" // Set input type to email
@@ -154,7 +154,7 @@ const RegistrationForm = () => {
             type="submit"
             className="w-full py-1 bg-blue-500 text-gray-800 border font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
           >
-            {isRegisterLoading ? 'loading' : 'Register'}
+            {isRegisterLoading ? "loading" : "Register"}
           </button>
           <div className="mt-6">
             <button
