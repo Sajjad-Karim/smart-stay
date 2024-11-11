@@ -38,6 +38,8 @@ const HotelDetails = () => {
     isHotelDetailsLoading,
   } = useSelector((state) => state.hotel);
 
+  const { isLoginSuccess } = useSelector((state) => state.auth);
+
   if (isHotelDetailsLoading) return <Spinner />;
 
   const options = {
@@ -88,9 +90,18 @@ const HotelDetails = () => {
               </div>
               <button
                 onClick={() => setIsCheckout(true)}
-                className="mt-6 w-[300px] py-3 rounded-md bg-gradient-to-r from-green-500 to-teal-500 text-white text-lg font-semibold shadow-lg hover:from-green-600 hover:to-teal-600 transition duration-300 transform hover:scale-105"
+                disabled={!isLoginSuccess}
+                className={`mt-6 w-[300px] py-3 rounded-md bg-gradient-to-r from-green-500 to-teal-500 text-white text-lg font-semibold shadow-lg hover:from-green-600 hover:to-teal-600 transition duration-300 transform hover:scale-105 
+                ${
+                  !isLoginSuccess ? 'cursor-not-allowed opacity-50' : ''
+                } group`}
               >
                 Check out
+                {!isLoginSuccess && (
+                  <div className="absolute left-1/2 -translate-x-1/2 top-[-30px] text-white text-sm p-2 bg-black rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    logIn/SignUp to proceed
+                  </div>
+                )}
               </button>
             </div>
 
