@@ -1,10 +1,10 @@
-import React from "react";
 import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
   FaLinkedinIn,
-} from "react-icons/fa";
+} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className=" text-gray-800 py-8">
@@ -27,16 +27,20 @@ const Footer = () => {
             Quick Links
           </h3>
           <ul>
-            <li className="mb-2">
-              <a href="#home" className="hover:text-indigo-400 transition">
-                Home
-              </a>
-            </li>
-            <li className="mb-2">
-              <a href="#about" className="hover:text-indigo-400 transition">
-                About Us
-              </a>
-            </li>
+            <Link to={'/'}>
+              <li className="mb-2">
+                <a href="#home" className="hover:text-indigo-400 transition">
+                  Home
+                </a>
+              </li>
+            </Link>
+            <Link to={'/about-us'}>
+              <li className="mb-2">
+                <a href="#about" className="hover:text-indigo-400 transition">
+                  About Us
+                </a>
+              </li>
+            </Link>
             <li className="mb-2">
               <a href="#support" className="hover:text-indigo-400 transition">
                 Support
