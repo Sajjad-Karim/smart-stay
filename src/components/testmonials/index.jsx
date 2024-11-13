@@ -1,28 +1,28 @@
 // Testimonials.jsx
-import React from "react";
-import TestimonialCard from "./testimonialCard";
-import SlickSlider from "../carousel";
-const Testimonials = ({}) => {
+
+import TestimonialCard from './testimonialCard';
+import SlickSlider from '../carousel';
+const Testimonials = () => {
   const testimonialsData = [
     {
-      text: "SmartStay made finding the perfect stay so easy. The recommendations were spot on!",
-      name: "Emily, Solo Traveler",
+      text: 'SmartStay made finding the perfect stay so easy. The recommendations were spot on!',
+      name: 'Emily, Solo Traveler',
     },
     {
-      text: "Loved the community vibe and the easy booking process. Highly recommended!",
-      name: "Alex, Backpacker",
+      text: 'Loved the community vibe and the easy booking process. Highly recommended!',
+      name: 'Alex, Backpacker',
     },
     {
-      text: "From beachside bungalows to city apartments, SmartStay had it all!",
-      name: "Sarah, Digital Nomad",
+      text: 'From beachside bungalows to city apartments, SmartStay had it all!',
+      name: 'Sarah, Digital Nomad',
     },
     {
-      text: "Experience the beauty of nature without leaving home. SmartStay is the perfect choice!",
-      name: "Jay, Outdoor Traveler",
+      text: 'Experience the beauty of nature without leaving home. SmartStay is the perfect choice!',
+      name: 'Jay, Outdoor Traveler',
     },
     {
       text: "Discover the magic of the city with SmartStay. I've been a loyal customer for years!",
-      name: "Jane, City Lover",
+      name: 'Jane, City Lover',
     },
   ];
 
