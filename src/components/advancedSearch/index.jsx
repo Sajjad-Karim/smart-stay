@@ -65,9 +65,6 @@ const SearchFilter = ({ onFilterChange }) => {
             <option value="5000">5000+ PKR</option>
             <option value="6000">6000+ PKR</option>
             <option value="7000">7000+ PKR</option>
-            <option value="8000">8000+ PKR</option>
-            <option value="9000">9000+ PKR</option>
-            <option value="10000">10000+ PKR</option>
           </select>
         </div>
 
